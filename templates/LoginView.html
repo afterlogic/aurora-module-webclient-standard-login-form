@@ -4,7 +4,7 @@
 			<label for="selenium_login_email" class="placeholder"></label>
 			<span class="value">
 				<input id="selenium_login_email" tabindex="1" class="input check_autocomplete_input" name="email" type="email" spellcheck="false"
-					   data-bind="value: email, hasfocus: emailFocus, valueUpdate: 'afterkeydown', initDom: emailDom, i18n: {'key': 'CORE/LABEL_EMAIL', 'type': 'placeholder'}" />
+					   data-bind="value: email, hasfocus: emailFocus, valueUpdate: 'afterkeydown', initDom: emailDom, i18n: {'key': 'CORECLIENT/LABEL_EMAIL', 'type': 'placeholder'}" />
 			</span>
 		</div>
 		<!-- ko if: loginVisible --> <!-- for correctly browser save passwords -->
@@ -23,7 +23,7 @@
 			<label for="selenium_login_password" class="placeholder"></label>
 			<span class="value">
 				<input id="selenium_login_password" tabindex="3" class="input check_autocomplete_input" name="password" type="password" spellcheck="false"
-					   data-bind="value: password, hasfocus: passwordFocus, valueUpdate: 'afterkeydown', initDom: passwordDom, i18n: {'key': 'CORE/LABEL_PASSWORD', 'type': 'placeholder'}" />
+					   data-bind="value: password, hasfocus: passwordFocus, valueUpdate: 'afterkeydown', initDom: passwordDom, i18n: {'key': 'CORECLIENT/LABEL_PASSWORD', 'type': 'placeholder'}" />
 			</span>
 		</div>
 	</div>
@@ -42,10 +42,10 @@
 	</div>
 	<div class="row links">
 		<div class="forgot" data-bind="visible: bAllowResetPassword">
-			<span class="link" data-bind="click: function () {$parent.gotoForgot(true);}, i18n: {'key': 'CORE/ACTION_FORGOT'}"></span>
+			<span class="link" data-bind="click: function () {$parent.gotoForgot(true);}, i18n: {'key': 'CORECLIENT/ACTION_FORGOT'}"></span>
 		</div>
 		<div class="register" data-bind="visible: bAllowRegistration">
-			<span class="link" data-bind="click: function () {$parent.gotoRegister(true);}, i18n: {'key': 'CORE/ACTION_REGISTER'}"></span>
+			<span class="link" data-bind="click: function () {$parent.gotoRegister(true);}, i18n: {'key': 'CORECLIENT/ACTION_REGISTER'}"></span>
 		</div>
 	</div>
 </form>

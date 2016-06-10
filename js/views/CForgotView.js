@@ -58,7 +58,7 @@ function CForgotView()
 	this.confirmPasswordFocus = ko.observable(false);
 	this.changingPassword = ko.observable(false);
 	this.changePasswordButtonText = ko.computed(function () {
-		return this.changingPassword() ? TextUtils.i18n('CORE/ACTION_RESET_PASSWORD_IN_PROGRESS') : TextUtils.i18n('CORE/ACTION_RESET_PASSWORD');
+		return this.changingPassword() ? TextUtils.i18n('CORECLIENT/ACTION_RESET_PASSWORD_IN_PROGRESS') : TextUtils.i18n('CORECLIENT/ACTION_RESET_PASSWORD');
 	}, this);
 	this.allowChangePassword = ko.computed(function () {
 		var
@@ -158,7 +158,7 @@ CForgotView.prototype.executeChangePassword = function ()
 {
 	if (this.password() !== this.confirmPassword())
 	{
-		Screens.showError(TextUtils.i18n('CORE/ERROR_PASSWORDS_DO_NOT_MATCH'));
+		Screens.showError(TextUtils.i18n('CORECLIENT/ERROR_PASSWORDS_DO_NOT_MATCH'));
 	}
 	else
 	{

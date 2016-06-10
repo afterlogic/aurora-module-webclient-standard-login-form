@@ -1,7 +1,7 @@
 <form class="form fields" action="#/" onsubmit="return false;" data-bind="command: registerCommand">
 	<div class="fieldset">
 		<div class="row name" data-bind="css: {'focused': nameFocus(), 'filled': name().length > 0}">
-			<label for="name" class="placeholder" data-bind="i18n: {'key': 'CORE/LABEL_NAME'}"></label>
+			<label for="name" class="placeholder" data-bind="i18n: {'key': 'CORECLIENT/LABEL_NAME'}"></label>
 			<span class="value">
 				<input id="name" class="input" type="text" spellcheck="false" autocomplete="off" data-bind="value: name, hasfocus: nameFocus, valueUpdate: 'afterkeydown'" />
 			</span>
@@ -18,13 +18,13 @@
 			</span>
 		</div>
 		<div class="row password" data-bind="css: {'focused': passwordFocus(), 'filled': password().length > 0}">
-			<label for="reg_password" class="placeholder" data-bind="i18n: {'key': 'CORE/LABEL_NEW_PASSWORD'}"></label>
+			<label for="reg_password" class="placeholder" data-bind="i18n: {'key': 'CORECLIENT/LABEL_NEW_PASSWORD'}"></label>
 			<span class="value">
 				<input id="reg_password" class="input" autocomplete="off" spellcheck="false" type="password" data-bind="value: password, hasfocus: passwordFocus, valueUpdate: 'afterkeydown'" />
 			</span>
 		</div>
 		<div class="row password" data-bind="css: {'focused': confirmPasswordFocus(), 'filled': confirmPassword().length > 0}">
-			<label for="reg_confirm_password" class="placeholder" data-bind="i18n: {'key': 'CORE/LABEL_CONFIRM_PASSWORD'}"></label>
+			<label for="reg_confirm_password" class="placeholder" data-bind="i18n: {'key': 'CORECLIENT/LABEL_CONFIRM_PASSWORD'}"></label>
 			<span class="value">
 				<input id="reg_confirm_password" class="input" autocomplete="off" spellcheck="false" type="password" data-bind="value: confirmPassword, hasfocus: confirmPasswordFocus, valueUpdate: 'afterkeydown'" />
 			</span>

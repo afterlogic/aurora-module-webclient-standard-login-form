@@ -76,7 +76,7 @@ function CRegisterView()
 	}, this);
 
 	this.registerButtonText = ko.computed(function () {
-		return this.loading() ? TextUtils.i18n('CORE/ACTION_REGISTER_IN_PROGRESS') : TextUtils.i18n('CORE/ACTION_REGISTER');
+		return this.loading() ? TextUtils.i18n('CORECLIENT/ACTION_REGISTER_IN_PROGRESS') : TextUtils.i18n('CORECLIENT/ACTION_REGISTER');
 	}, this);
 	
 	this.registerCommand = Utils.createCommand(this, this.registerAccount, this.canBeRegister);
@@ -94,7 +94,7 @@ CRegisterView.prototype.registerAccount = function ()
 {
 	if (this.password() !== this.confirmPassword())
 	{
-		Screens.showError(TextUtils.i18n('CORE/ERROR_PASSWORDS_DO_NOT_MATCH'));
+		Screens.showError(TextUtils.i18n('CORECLIENT/ERROR_PASSWORDS_DO_NOT_MATCH'));
 	}
 	else
 	{
@@ -125,7 +125,7 @@ CRegisterView.prototype.onAccountRegisterResponse = function (oResponse, oReques
 	{
 		this.loading(false);
 		
-		Api.showErrorByCode(oResponse, TextUtils.i18n('CORE/ERROR_PASS_INCORRECT'));
+		Api.showErrorByCode(oResponse, TextUtils.i18n('CORECLIENT/ERROR_PASS_INCORRECT'));
 	}
 	else
 	{
