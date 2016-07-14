@@ -1,0 +1,49 @@
+<div class="panel_center">
+	<div style="margin: 20px 0;">
+		<div class="items_list accounts_list" data-bind="visible: accounts().length > 0">
+			<div data-bind="foreach: accounts">
+				<div class="item account" data-bind="css: {'selected': false}">
+					<span class="title" data-bind="text: login"></span>
+					<span class="link fetcher" data-bind="i18n: {'key': 'CORECLIENT/ACTION_DELETE'}, click: function () {$parent.confirmAccountDeleting(id, login);}"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="fields">
+		<div class="fieldset" data-bind="visible: visibleCreateForm">
+			<h2 class="subheading" data-bind="text: createAccountHeading"></h2>
+			<div class="row">
+				<span class="label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_LOGIN'}"></span>
+				<span class="value">
+					<input class="input" type="text" data-bind="value: login" />
+				</span>
+			</div>
+			<div class="row">
+				<span class="label" data-bind="i18n: {'key': 'CORECLIENT/LABEL_PASSWORD'}"></span>
+				<span class="value">
+					<input class="input" type="password" data-bind="value: pass" />
+				</span>
+			</div>
+			<div class="row">
+				<span class="label" data-bind="i18n: {'key': 'CORECLIENT/LABEL_CONFIRM_PASSWORD'}"></span>
+				<span class="value">
+					<input class="input" type="password" data-bind="value: confirmPass" />
+				</span>
+			</div>
+		</div>
+
+		<div class="buttons">
+			<span class="button" data-bind="click: openCreateAccountForm, visible: !visibleCreateForm()">
+				<span data-bind="i18n: {'key': '%MODULENAME%/ACTION_CREATE_NEW_ACCOUNT'}"></span>
+			</span>
+			<span class="button" data-bind="click: createAccount, visible: visibleCreateForm() && !isCreating()">
+				<span data-bind="i18n: {'key': '%MODULENAME%/ACTION_CREATE'}"></span>
+			</span>
+			<span class="button" data-bind="visible: visibleCreateForm() && isCreating()">
+				<span data-bind="i18n: {'key': '%MODULENAME%/ACTION_CREATE_IN_PROGRESS'}"></span>
+			</span>
+			<span class="button secondary_button" data-bind="click: hideCreateAccountForm, visible: visibleCreateForm() && !isCreating()">
+				<span data-bind="i18n: {'key': 'CORECLIENT/ACTION_CANCEL'}"></span>
+			</span>
+		</div>
+</div>

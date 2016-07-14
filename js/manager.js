@@ -9,6 +9,7 @@ module.exports = function (oAppData) {
 		_ = require('underscore'),
 		$ = require('jquery'),
 		
+		TextUtils = require('modules/CoreClient/js/utils/Text.js'),
 		Types = require('modules/CoreClient/js/utils/Types.js'),
 		
 		Ajax = require('modules/%ModuleName%/js/Ajax.js'),
@@ -24,6 +25,18 @@ module.exports = function (oAppData) {
 		isAvailable: function (iUserRole, bPublic) {
 			bAllowLoginView = iUserRole === Enums.UserRole.Anonymous;
 			return !bPublic;
+		},
+		/**
+		 * Runs after app initializing. Adds basic accounts tab to admin panel.
+		 * 
+		 * @param {Object} ModulesManager Modules manager object.
+		 */
+		start: function (ModulesManager) {
+			ModulesManager.run('AdminPanelClient', 'registerAdminPanelTab', [
+				function () { return require('modules/%ModuleName%/js/views/AccountsSettingsView.js'); },
+				Settings.HashModuleName + '-accounts',
+				TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB')
+			]);
 		},
 		getScreens: function () {
 			var oScreens = {};
