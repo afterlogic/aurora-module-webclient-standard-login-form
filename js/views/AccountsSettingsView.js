@@ -26,17 +26,37 @@ function CAccountsSettingsView()
 {
 	CAbstractSettingsFormView.call(this, Settings.ServerModuleName);
 
+	this.sFakePass = 'xxxxxxxx'; // fake password uses to display something in password input while account editing
+	
 	this.iUserId = 0; // current user identifier
 	this.accounts = ko.observableArray([]); // current user account list
+	this.currentAccountId = ko.observable(0); // current account identifier
 	
 	//heading text for account create form
 	this.createAccountHeading = ko.computed(function () {
-		return this.accounts().length > 0 ? TextUtils.i18n('%MODULENAME%/HEADING_CREATE_NEW_ACCOUNT') : TextUtils.i18n('%MODULENAME%/HEADING_CREATE_FIRST_ACCOUNT');
+		if (this.accounts().length === 0)
+		{
+			return TextUtils.i18n('%MODULENAME%/HEADING_CREATE_FIRST_ACCOUNT');
+		}
+		if (this.currentAccountId() === 0)
+		{
+			return TextUtils.i18n('%MODULENAME%/HEADING_CREATE_NEW_ACCOUNT');
+		}
+		return TextUtils.i18n('%MODULENAME%/HEADING_EDIT_NEW_ACCOUNT');
+	}, this);
+	
+	//text for update/create button
+	this.updateButtonText = ko.computed(function () {
+		return (this.currentAccountId() === 0) ? TextUtils.i18n('%MODULENAME%/ACTION_CREATE') : TextUtils.i18n('%MODULENAME%/ACTION_UPDATE');
+	}, this);
+	this.updateProgressButtonText = ko.computed(function () {
+		return (this.currentAccountId() === 0) ? TextUtils.i18n('%MODULENAME%/ACTION_CREATE_IN_PROGRESS') : TextUtils.i18n('%MODULENAME%/ACTION_UPDATE_IN_PROGRESS');
 	}, this);
 	
 	this.login = ko.observable(''); // new account login
+	this.loginFocus = ko.observable(false);
 	this.pass = ko.observable(''); // new account password
-	this.confirmPass = ko.observable(''); // new account confirm password
+	this.passFocus = ko.observable(false);
 	
 	this.visibleCreateForm = ko.observable(false);
 	this.isCreating = ko.observable(false);
@@ -63,11 +83,11 @@ CAccountsSettingsView.prototype.requestAccounts = function ()
 		this.accounts(_.isArray(oResponse.Result) ? oResponse.Result : []);
 		if (this.accounts().length === 0)
 		{
-			this.openCreateAccountForm();
+			this.openEditAccountForm(0);
 		}
 		else
 		{
-			this.hideCreateAccountForm();
+			this.hideEditAccountForm();
 		}
 	}, this);
 };
@@ -88,56 +108,87 @@ CAccountsSettingsView.prototype.setAccessLevel = function (sEntityType, iEntityI
 /**
  * Show popup to confirm deleting of basic account with specified identificator.
  * 
- * @param {number} iId Identificator of basic account that should be deleted.
+ * @param {number} iAccountId Identificator of basic account that should be deleted.
  * @param {string} sLogin Login of basic account that should be deleted. Uses in confirm popup text.
  */
-CAccountsSettingsView.prototype.confirmAccountDeleting = function (iId, sLogin)
+CAccountsSettingsView.prototype.confirmAccountDeleting = function (iAccountId, sLogin)
 {
-	Popups.showPopup(ConfirmPopup, [TextUtils.i18n('%MODULENAME%/CONFIRM_DELETE_ACCOUNT'), _.bind(this.deleteAccount, this, iId), sLogin]);
+	Popups.showPopup(ConfirmPopup, [TextUtils.i18n('%MODULENAME%/CONFIRM_DELETE_ACCOUNT'), _.bind(this.deleteAccount, this, iAccountId), sLogin]);
 };
 
 /**
  * Sends request to the server to delete specified basic account.
  * 
- * @param {number} iId Identificator of basic account that should be deleted.
+ * @param {number} iAccountId Identificator of basic account that should be deleted.
+ * @param {boolean} bDelete Indicates if administrator confirmed account deleting or not.
  */
-CAccountsSettingsView.prototype.deleteAccount = function (iId)
+CAccountsSettingsView.prototype.deleteAccount = function (iAccountId, bDelete)
 {
-	Ajax.send('DeleteAccount', {'AccountId': iId}, function (oResponse) {
-		if (oResponse.Result)
-		{
-			Screens.showReport(TextUtils.i18n('%MODULENAME%/REPORT_DELETE_ACCOUNT'));
-		}
-		else
-		{
-			Screens.showError(TextUtils.i18n('%MODULENAME%/ERROR_DELETE_ACCOUNT'));
-		}
-		this.requestAccounts();
-	}, this);
+	if (bDelete)
+	{
+		Ajax.send('DeleteAccount', {'AccountId': iAccountId}, function (oResponse) {
+			if (oResponse.Result)
+			{
+				Screens.showReport(TextUtils.i18n('%MODULENAME%/REPORT_DELETE_ACCOUNT'));
+			}
+			else
+			{
+				Screens.showError(TextUtils.i18n('%MODULENAME%/ERROR_DELETE_ACCOUNT'));
+			}
+			this.requestAccounts();
+		}, this);
+	}
 };
 
 /**
- * Displays new account creating form.
+ * Displays edit account form.
+ * 
+ * @param {number} iAccountId Identificator of basic account that should be deleted.
  */
-CAccountsSettingsView.prototype.openCreateAccountForm = function ()
+CAccountsSettingsView.prototype.openEditAccountForm = function (iAccountId)
 {
-	this.login('');
-	this.pass('');
+	var oAccount = _.find(this.accounts(), function (oAccount) {
+		return oAccount.id === iAccountId;
+	});
+	
+	if (oAccount)
+	{
+		this.currentAccountId(iAccountId);
+		this.login(oAccount.login);
+		this.pass(this.sFakePass);
+		this.passFocus(true);
+	}
+	else
+	{
+		this.currentAccountId(0);
+		this.login('');
+		this.loginFocus(true);
+		this.pass('');
+	}
+	
 	this.visibleCreateForm(true);
 };
 
 /**
- * Validates input data and sends request to the server to create new basic account.
+ * Validates input data and sends request to the server to create new basic account or update existing basic account.
  */
-CAccountsSettingsView.prototype.createAccount = function ()
+CAccountsSettingsView.prototype.saveAccount = function ()
 {
-	if (this.pass() !== '' && this.pass() === this.confirmPass())
+	if (this.login() === '')
+	{
+		this.loginFocus(true);
+	}
+	else if (this.pass() === '' || this.pass() === this.sFakePass)
+	{
+		this.passFocus(true);
+	}
+	else if (this.currentAccountId() === 0)
 	{
 		Ajax.send('CreateUserAccount', {'UserId': this.iUserId, 'Login': this.login(), 'Password': this.pass()}, function (oResponse) {
 			if (oResponse.Result)
 			{
 				Screens.showReport(TextUtils.i18n('%MODULENAME%/REPORT_CREATE_ACCOUNT'));
-				this.hideCreateAccountForm();
+				this.hideEditAccountForm();
 			}
 			else
 			{
@@ -148,15 +199,27 @@ CAccountsSettingsView.prototype.createAccount = function ()
 	}
 	else
 	{
-		Screens.showError(TextUtils.i18n('CORECLIENT/ERROR_PASSWORDS_DO_NOT_MATCH'));
+		Ajax.send('UpdateAccount', {'AccountId': this.currentAccountId(), 'Password': this.pass()}, function (oResponse) {
+			if (oResponse.Result)
+			{
+				Screens.showReport(TextUtils.i18n('%MODULENAME%/REPORT_UPDATE_ACCOUNT'));
+				this.hideEditAccountForm();
+			}
+			else
+			{
+				Screens.showError(TextUtils.i18n('%MODULENAME%/ERROR_UPDATE_ACCOUNT'));
+			}
+			this.requestAccounts();
+		}, this);
 	}
 };
 
 /**
- * Hides new account creating form.
+ * Hides edit account form.
  */
-CAccountsSettingsView.prototype.hideCreateAccountForm = function ()
+CAccountsSettingsView.prototype.hideEditAccountForm = function ()
 {
+	this.currentAccountId(0);
 	this.visibleCreateForm(false);
 };
 
