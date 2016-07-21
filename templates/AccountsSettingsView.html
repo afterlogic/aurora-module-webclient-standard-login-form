@@ -1,11 +1,12 @@
+<div class="panel_top">
+	<h2 class="settings_heading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_BASIC_ACCOUNTS_SETTINGS'}"></h2>
+</div>
 <div class="panel_center">
-	<div style="margin: 20px 0;">
-		<div class="items_list accounts_list" data-bind="visible: accounts().length > 0">
-			<div data-bind="foreach: accounts">
-				<div class="item account" data-bind="css: {'selected': $parent.currentAccountId() === id}, click: function () { $parent.openEditAccountForm(id); }">
-					<span class="title" data-bind="text: login"></span>
-					<span class="link" data-bind="i18n: {'key': 'CORECLIENT/ACTION_DELETE'}, click: function () { $parent.confirmAccountDeleting(id, login); }, clickBubble: false"></span>
-				</div>
+	<div class="items_list accounts_list" style="margin-bottom: 20px;" data-bind="visible: accounts().length > 0">
+		<div data-bind="foreach: accounts">
+			<div class="item account" data-bind="css: {'selected': $parent.currentAccountId() === id}, click: function () { $parent.openEditAccountForm(id); }">
+				<span class="title" data-bind="text: login"></span>
+				<span class="link" data-bind="i18n: {'key': 'CORECLIENT/ACTION_DELETE'}, click: function () { $parent.confirmAccountDeleting(id, login); }, clickBubble: false"></span>
 			</div>
 		</div>
 	</div>
