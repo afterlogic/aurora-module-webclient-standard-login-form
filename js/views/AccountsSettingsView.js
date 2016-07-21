@@ -102,7 +102,12 @@ CAccountsSettingsView.prototype.requestAccounts = function ()
 CAccountsSettingsView.prototype.setAccessLevel = function (sEntityType, iEntityId)
 {
 	this.visible(sEntityType === 'User');
-	this.iUserId = iEntityId;
+	if (this.iUserId !== iEntityId)
+	{
+		this.accounts([]);
+		this.hideEditAccountForm();
+		this.iUserId = iEntityId;
+	}
 };
 
 /**
