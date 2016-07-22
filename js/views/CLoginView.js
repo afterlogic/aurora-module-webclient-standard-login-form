@@ -122,11 +122,10 @@ CLoginView.prototype.signIn = function ()
 
 	var
 		sEmail = this.email(),
-		sLogin = this.login(),
-		sPassword = this.password()
+		sLogin = this.login()
 	;
 
-	if (!this.loading() && !this.changingLanguage() && '' !== $.trim(sPassword) && (
+	if (!this.loading() && !this.changingLanguage() && (
 		(Enums.LoginFormType.Login === Settings.LoginFormType && '' !== $.trim(sLogin)) ||
 		(Enums.LoginFormType.Email === Settings.LoginFormType && '' !== $.trim(sEmail)) ||
 		(Enums.LoginFormType.Both === Settings.LoginFormType && '' !== $.trim(sEmail))
