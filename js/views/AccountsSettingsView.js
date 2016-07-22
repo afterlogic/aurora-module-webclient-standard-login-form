@@ -204,12 +204,12 @@ CAccountsSettingsView.prototype.saveAccount = function ()
 			{
 				Screens.showReport(TextUtils.i18n('%MODULENAME%/REPORT_CREATE_ACCOUNT'));
 				this.hideEditAccountForm();
+				this.requestAccounts();
 			}
 			else
 			{
 				Api.showErrorByCode(oResponse, TextUtils.i18n('%MODULENAME%/ERROR_CREATE_ACCOUNT'));
 			}
-			this.requestAccounts();
 		}, this);
 	}
 	else
