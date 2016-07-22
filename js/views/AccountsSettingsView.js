@@ -9,6 +9,7 @@ var
 	Popups = require('modules/CoreClient/js/Popups.js'),
 	ConfirmPopup = require('modules/CoreClient/js/popups/ConfirmPopup.js'),
 	
+	Api = require('modules/CoreClient/js/Api.js'),
 	ModulesManager = require('modules/CoreClient/js/ModulesManager.js'),
 	Screens = require('modules/CoreClient/js/Screens.js'),
 	CAbstractSettingsFormView = ModulesManager.run('SettingsClient', 'getAbstractSettingsFormViewClass'),
@@ -80,7 +81,16 @@ CAccountsSettingsView.prototype.onRoute = function ()
 CAccountsSettingsView.prototype.requestAccounts = function ()
 {
 	Ajax.send('GetUserAccounts', {'UserId': this.iUserId}, function (oResponse) {
-		this.accounts(_.isArray(oResponse.Result) ? oResponse.Result : []);
+		if (_.isArray(oResponse.Result))
+		{
+			this.accounts(oResponse.Result);
+		}
+		else
+		{
+			Api.showErrorByCode(oResponse);
+			this.accounts([]);
+		}
+		
 		if (this.accounts().length === 0)
 		{
 			this.openEditAccountForm(0);
@@ -138,7 +148,7 @@ CAccountsSettingsView.prototype.deleteAccount = function (iAccountId, bDelete)
 			}
 			else
 			{
-				Screens.showError(TextUtils.i18n('%MODULENAME%/ERROR_DELETE_ACCOUNT'));
+				Api.showErrorByCode(oResponse, TextUtils.i18n('%MODULENAME%/ERROR_DELETE_ACCOUNT'));
 			}
 			this.requestAccounts();
 		}, this);
@@ -197,7 +207,7 @@ CAccountsSettingsView.prototype.saveAccount = function ()
 			}
 			else
 			{
-				Screens.showError(TextUtils.i18n('%MODULENAME%/ERROR_CREATE_ACCOUNT'));
+				Api.showErrorByCode(oResponse, TextUtils.i18n('%MODULENAME%/ERROR_CREATE_ACCOUNT'));
 			}
 			this.requestAccounts();
 		}, this);
@@ -212,7 +222,7 @@ CAccountsSettingsView.prototype.saveAccount = function ()
 			}
 			else
 			{
-				Screens.showError(TextUtils.i18n('%MODULENAME%/ERROR_UPDATE_ACCOUNT'));
+				Api.showErrorByCode(oResponse, TextUtils.i18n('%MODULENAME%/ERROR_UPDATE_ACCOUNT'));
 			}
 			this.requestAccounts();
 		}, this);
