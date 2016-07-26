@@ -10,6 +10,7 @@ var
 	Utils = require('modules/CoreClient/js/utils/Common.js'),
 	
 	Api = require('modules/CoreClient/js/Api.js'),
+	App = require('modules/CoreClient/js/App.js'),
 	Browser = require('modules/CoreClient/js/Browser.js'),
 	
 	Ajax = require('modules/%ModuleName%/js/Ajax.js'),
@@ -76,16 +77,13 @@ function CLoginView()
 	this.email(Settings.DemoLogin || '');
 	this.password(Settings.DemoPassword || '');
 	
-//	if (AfterLogicApi.runPluginHook)
-//	{
-//		AfterLogicApi.runPluginHook('view-model-defined', [this.__name, this]);
-//	}
-
 	this.shake = ko.observable(false).extend({'autoResetToFalse': 800});
+	
+	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 }
 
 CLoginView.prototype.ViewTemplate = '%ModuleName%_LoginView';
-CLoginView.prototype.__name = 'CLoginView';
+CLoginView.prototype.ViewConstructorName = 'CLoginView';
 
 CLoginView.prototype.onBind = function ()
 {

@@ -9,6 +9,7 @@ var
 	Utils = require('modules/CoreClient/js/utils/Common.js'),
 	
 	Api = require('modules/CoreClient/js/Api.js'),
+	App = require('modules/CoreClient/js/App.js'),
 	Screens = require('modules/CoreClient/js/Screens.js'),
 	
 	Ajax = require('modules/%ModuleName%/js/Ajax.js')
@@ -71,14 +72,11 @@ function CForgotView()
 	}, this);
 	this.changePasswordCommand = Utils.createCommand(this, this.executeChangePassword, this.allowChangePassword);
 	
-//	if (AfterLogicApi.runPluginHook)
-//	{
-//		AfterLogicApi.runPluginHook('view-model-defined', [this.__name, this]);
-//	}
+	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 }
 
 CForgotView.prototype.ViewTemplate = '%ModuleName%_ForgotView';
-CForgotView.prototype.__name = 'CForgotView';
+CForgotView.prototype.ViewConstructorName = 'CForgotView';
 
 CForgotView.prototype.executeGetQuestion = function ()
 {

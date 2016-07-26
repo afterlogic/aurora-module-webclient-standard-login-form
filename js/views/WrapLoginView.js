@@ -61,16 +61,13 @@ function CWrapLoginView()
 
 	this.sCustomLogoUrl = Settings.CustomLogoUrl;
 	
-//	if (AfterLogicApi.runPluginHook)
-//	{
-//		AfterLogicApi.runPluginHook('view-model-defined', [this.__name, this]);
-//	}
+	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 }
 
 _.extendOwn(CWrapLoginView.prototype, CAbstractScreenView.prototype);
 
 CWrapLoginView.prototype.ViewTemplate = '%ModuleName%_WrapLoginView';
-CWrapLoginView.prototype.__name = 'CWrapLoginView';
+CWrapLoginView.prototype.ViewConstructorName = 'CWrapLoginView';
 
 CWrapLoginView.prototype.onShow = function ()
 {

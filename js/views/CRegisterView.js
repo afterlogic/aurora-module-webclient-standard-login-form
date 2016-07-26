@@ -11,6 +11,7 @@ var
 	
 	Ajax = require('modules/CoreClient/js/Ajax.js'),
 	Api = require('modules/CoreClient/js/Api.js'),
+	App = require('modules/CoreClient/js/App.js'),
 	Screens = require('modules/CoreClient/js/Screens.js'),
 	
 	Settings = require('modules/%ModuleName%/js/Settings.js')
@@ -81,14 +82,11 @@ function CRegisterView()
 	
 	this.registerCommand = Utils.createCommand(this, this.registerAccount, this.canBeRegister);
 	
-//	if (AfterLogicApi.runPluginHook)
-//	{
-//		AfterLogicApi.runPluginHook('view-model-defined', [this.__name, this]);
-//	}
+	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 }
 
 CRegisterView.prototype.ViewTemplate = '%ModuleName%_RegisterView';
-CRegisterView.prototype.__name = 'CRegisterView';
+CRegisterView.prototype.ViewConstructorName = 'CRegisterView';
 
 CRegisterView.prototype.registerAccount = function ()
 {
