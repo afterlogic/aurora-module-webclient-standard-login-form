@@ -97,7 +97,7 @@ CAccountsSettingsView.prototype.requestAccounts = function ()
 		}
 		else
 		{
-			this.hideEditAccountForm();
+			this.openEditAccountForm(this.accounts()[0].id);
 		}
 	}, this);
 };
