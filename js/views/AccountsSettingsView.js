@@ -10,6 +10,7 @@ var
 	ConfirmPopup = require('modules/CoreClient/js/popups/ConfirmPopup.js'),
 	
 	Api = require('modules/CoreClient/js/Api.js'),
+	App = require('modules/CoreClient/js/App.js'),
 	ModulesManager = require('modules/CoreClient/js/ModulesManager.js'),
 	Screens = require('modules/CoreClient/js/Screens.js'),
 	CAbstractSettingsFormView = ModulesManager.run('SettingsClient', 'getAbstractSettingsFormViewClass'),
@@ -29,7 +30,8 @@ function CAccountsSettingsView()
 
 	this.sFakePass = 'xxxxxxxx'; // fake password uses to display something in password input while account editing
 	
-	this.iUserId = 0; // current user identifier
+	this.iUserId = App.getUserId(); // current user identifier
+	
 	this.accounts = ko.observableArray([]); // current user account list
 	this.currentAccountId = ko.observable(0); // current account identifier
 	
@@ -116,7 +118,7 @@ CAccountsSettingsView.prototype.setAccessLevel = function (sEntityType, iEntityI
 	{
 		this.accounts([]);
 		this.hideEditAccountForm();
-		this.iUserId = iEntityId;
+		this.iUserId = iEntityId || -1;
 	}
 };
 

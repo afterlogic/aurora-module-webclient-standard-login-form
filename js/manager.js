@@ -37,6 +37,11 @@ module.exports = function (oAppData) {
 				Settings.HashModuleName + '-accounts',
 				TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB')
 			]);
+			ModulesManager.run('SettingsClient', 'registerSettingsTab', [
+				function () { return require('modules/%ModuleName%/js/views/AccountsSettingsView.js'); },
+				Settings.HashModuleName + '-accounts',
+				TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB')
+			]);
 		},
 		getScreens: function () {
 			var oScreens = {};
