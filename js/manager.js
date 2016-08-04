@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = function (oAppData) {
+module.exports = function (oAppData, iUserRole, bPublic) {
 	require('modules/%ModuleName%/js/enums.js');
 	require('jquery.cookie');
 
@@ -16,14 +16,15 @@ module.exports = function (oAppData) {
 		Settings = require('modules/%ModuleName%/js/Settings.js'),
 		oSettings = _.extend({}, oAppData[Settings.ServerModuleName] || {}, oAppData['%ModuleName%'] || {}),
 		
-		bAllowLoginView = true
+		bAnonimUser = iUserRole === Enums.UserRole.Anonymous,
+		bAdminUser = iUserRole === Enums.UserRole.SuperAdmin,
+		bPowerUser = iUserRole === Enums.UserRole.PowerUser
 	;
 	
 	Settings.init(oSettings);
 	
 	return {
 		isAvailable: function (iUserRole, bPublic) {
-			bAllowLoginView = iUserRole === Enums.UserRole.Anonymous;
 			return !bPublic;
 		},
 		/**
@@ -32,22 +33,28 @@ module.exports = function (oAppData) {
 		 * @param {Object} ModulesManager Modules manager object.
 		 */
 		start: function (ModulesManager) {
-			ModulesManager.run('AdminPanelClient', 'registerAdminPanelTab', [
-				function () { return require('modules/%ModuleName%/js/views/AccountsSettingsView.js'); },
-				Settings.HashModuleName + '-accounts',
-				TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB'),
-				[Enums.SettingsTabCapability.ManageAuthAccounts]
-			]);
-			ModulesManager.run('SettingsClient', 'registerSettingsTab', [
-				function () { return require('modules/%ModuleName%/js/views/AccountsSettingsView.js'); },
-				Settings.HashModuleName + '-accounts',
-				TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB'),
-				[Enums.SettingsTabCapability.ManageAuthAccounts]
-			]);
+			if (bAdminUser)
+			{
+				ModulesManager.run('AdminPanelClient', 'registerAdminPanelTab', [
+					function () { return require('modules/%ModuleName%/js/views/AccountsSettingsView.js'); },
+					Settings.HashModuleName + '-accounts',
+					TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB'),
+					[Enums.SettingsTabCapability.ManageAuthAccounts]
+				]);
+			}
+			if (bPowerUser)
+			{
+				ModulesManager.run('SettingsClient', 'registerSettingsTab', [
+					function () { return require('modules/%ModuleName%/js/views/AccountsSettingsView.js'); },
+					Settings.HashModuleName + '-accounts',
+					TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB'),
+					[Enums.SettingsTabCapability.ManageAuthAccounts]
+				]);
+			}
 		},
 		getScreens: function () {
 			var oScreens = {};
-			if (bAllowLoginView)
+			if (bAnonimUser)
 			{
 				oScreens[Settings.HashModuleName] = function () {
 					return require('modules/%ModuleName%/js/views/WrapLoginView.js');
