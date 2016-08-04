@@ -35,12 +35,14 @@ module.exports = function (oAppData) {
 			ModulesManager.run('AdminPanelClient', 'registerAdminPanelTab', [
 				function () { return require('modules/%ModuleName%/js/views/AccountsSettingsView.js'); },
 				Settings.HashModuleName + '-accounts',
-				TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB')
+				TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB'),
+				[Enums.SettingsTabCapability.ManageAuthAccounts]
 			]);
 			ModulesManager.run('SettingsClient', 'registerSettingsTab', [
 				function () { return require('modules/%ModuleName%/js/views/AccountsSettingsView.js'); },
 				Settings.HashModuleName + '-accounts',
-				TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB')
+				TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB'),
+				[Enums.SettingsTabCapability.ManageAuthAccounts]
 			]);
 		},
 		getScreens: function () {
