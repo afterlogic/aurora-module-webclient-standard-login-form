@@ -7,12 +7,10 @@ module.exports = function (oAppData, iUserRole, bPublic) {
 
 	var
 		_ = require('underscore'),
-		$ = require('jquery'),
 		
 		TextUtils = require('modules/CoreClient/js/utils/Text.js'),
 		Types = require('modules/CoreClient/js/utils/Types.js'),
 		
-		Ajax = require('modules/%ModuleName%/js/Ajax.js'),
 		Settings = require('modules/%ModuleName%/js/Settings.js'),
 		oSettings = _.extend({}, oAppData[Settings.ServerModuleName] || {}, oAppData['%ModuleName%'] || {}),
 		
@@ -61,12 +59,6 @@ module.exports = function (oAppData, iUserRole, bPublic) {
 				};
 			}
 			return oScreens;
-		},
-		logout: function (iLastErrorCode, fOnLogoutResponse, oContext)
-		{
-			Ajax.send('Logout', iLastErrorCode ? {'LastErrorCode': iLastErrorCode} : null, fOnLogoutResponse, oContext);
-			
-			$.removeCookie('AuthToken');
 		},
 		beforeAppRunning: function (bAuth) {
 			if (!bAuth && Types.isNonEmptyString(Settings.CustomLoginUrl))
