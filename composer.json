@@ -1,15 +1,15 @@
 {
-	"name": "afterlogic/aurora-module-webclient-basic-auth",
+	"name": "afterlogic/aurora-module-webclient-standard-login-form",
     	"version":"0.1.0",
     	"type": "aurora-module",
     	"dist":{
-               "url":"https://github.com/afterlogic/aurora-module-webclient-basic-auth/archive/master.zip",
+               "url":"https://github.com/afterlogic/aurora-module-webclient-standard-login-form/archive/master.zip",
                 "type":"zip"
         },
 	"require":{
 		"php":">=5.4.0"
 	},
 	"extra": {
-		"installer-name": "BasicAuthClient"
+		"installer-name": "StandardLoginForm"
 	}
 }
