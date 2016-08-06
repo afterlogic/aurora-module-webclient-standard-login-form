@@ -36,8 +36,7 @@ module.exports = function (oAppData, iUserRole, bPublic) {
 				ModulesManager.run('AdminPanelClient', 'registerAdminPanelTab', [
 					function () { return require('modules/%ModuleName%/js/views/AccountsSettingsView.js'); },
 					Settings.HashModuleName + '-accounts',
-					TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB'),
-					[Enums.SettingsTabCapability.ManageAuthAccounts]
+					TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB')
 				]);
 			}
 			if (bPowerUser)
@@ -45,8 +44,7 @@ module.exports = function (oAppData, iUserRole, bPublic) {
 				ModulesManager.run('SettingsClient', 'registerSettingsTab', [
 					function () { return require('modules/%ModuleName%/js/views/AccountsSettingsView.js'); },
 					Settings.HashModuleName + '-accounts',
-					TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB'),
-					[Enums.SettingsTabCapability.ManageAuthAccounts]
+					TextUtils.i18n('%MODULENAME%/LABEL_BASIC_ACCOUNTS_TAB')
 				]);
 			}
 		},

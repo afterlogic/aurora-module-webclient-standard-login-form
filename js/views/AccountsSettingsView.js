@@ -15,9 +15,10 @@ var
 	Screens = require('modules/CoreClient/js/Screens.js'),
 	CAbstractSettingsFormView = ModulesManager.run('SettingsClient', 'getAbstractSettingsFormViewClass'),
 	
-	Settings = require('modules/CoreClient/js/Settings.js'),
+	UserSettings = require('modules/CoreClient/js/Settings.js'),
 	
-	Ajax = require('modules/%ModuleName%/js/Ajax.js')
+	Ajax = require('modules/%ModuleName%/js/Ajax.js'),
+	Settings = require('modules/%ModuleName%/js/Settings.js')
 ;
 
 /**
@@ -26,7 +27,7 @@ var
 */
 function CAccountsSettingsView()
 {
-	CAbstractSettingsFormView.call(this, Settings.ServerModuleName);
+	CAbstractSettingsFormView.call(this, UserSettings.ServerModuleName);
 
 	this.sFakePass = 'xxxxxxxx'; // fake password uses to display something in password input while account editing
 	
@@ -34,6 +35,10 @@ function CAccountsSettingsView()
 	
 	this.accounts = ko.observableArray([]); // current user account list
 	this.currentAccountId = ko.observable(0); // current account identifier
+	
+	this.visible = ko.computed(function () {
+		return this.accounts().length > 0;
+	}, this);
 	
 	//heading text for account create form
 	this.createAccountHeading = ko.computed(function () {
@@ -63,6 +68,26 @@ function CAccountsSettingsView()
 	
 	this.visibleCreateForm = ko.observable(false);
 	this.isCreating = ko.observable(false);
+	
+	this.requestAccounts();
+	
+	App.subscribeEvent(Settings.ServerModuleName + '::CreateUserAuthAccount', _.bind(function (oParams) {
+		Ajax.send('CreateAuthenticatedUserAccount', {'Login': oParams.Login, 'Password': oParams.Password}, _.bind(function (oResponse) {
+			if (oResponse.Result)
+			{
+				oParams.SuccessCallback();
+				this.accounts.push({
+					id: oResponse.Result.iObjectId,
+					login: oParams.Login
+				});
+				App.broadcastEvent('OpenSettingTab', {'Name': this.SettingsTabName});
+			}
+			else
+			{
+				Api.showErrorByCode(oResponse);
+			}
+		}, this));
+	}, this));
 }
 
 _.extendOwn(CAccountsSettingsView.prototype, CAbstractSettingsFormView.prototype);
