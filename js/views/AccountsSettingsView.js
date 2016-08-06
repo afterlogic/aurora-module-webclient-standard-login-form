@@ -36,9 +36,12 @@ function CAccountsSettingsView()
 	this.accounts = ko.observableArray([]); // current user account list
 	this.currentAccountId = ko.observable(0); // current account identifier
 	
-	this.visible = ko.computed(function () {
-		return this.accounts().length > 0;
-	}, this);
+	if (App.getUserRole() === Enums.UserRole.PowerUser)
+	{
+		ko.computed(function () {
+			this.visible(this.accounts().length > 0);
+		}, this);
+	}
 	
 	//heading text for account create form
 	this.createAccountHeading = ko.computed(function () {
