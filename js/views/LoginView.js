@@ -13,6 +13,8 @@ var
 	App = require('modules/CoreClient/js/App.js'),
 	Browser = require('modules/CoreClient/js/Browser.js'),
 	
+	CAbstractScreenView = require('modules/CoreClient/js/views/CAbstractScreenView.js'),
+	
 	Ajax = require('modules/%ModuleName%/js/Ajax.js'),
 	Settings = require('modules/%ModuleName%/js/Settings.js'),
 	
@@ -24,48 +26,25 @@ var
  */
 function CLoginView()
 {
-	this.bAllowRegistration = Settings.AllowRegistration;
-	this.bAllowResetPassword = Settings.AllowResetPassword;
-
-	this.email = ko.observable('');
+	CAbstractScreenView.call(this);
+	
+	this.sCustomLogoUrl = Settings.CustomLogoUrl;
+	this.sInfoText = Settings.InfoText;
+	
 	this.login = ko.observable('');
 	this.password = ko.observable('');
 	
-	this.emailFocus = ko.observable(false);
 	this.loginFocus = ko.observable(false);
 	this.passwordFocus = ko.observable(false);
 
 	this.loading = ko.observable(false);
-	this.changingLanguage = ko.observable(false);
-
-	this.loginFocus.subscribe(function (bFocus) {
-		if (bFocus && '' === this.login()) {
-			this.login(this.email());
-		}
-	}, this);
-
-	this.sLoginAtDomain = Settings.LoginAtDomain !== '' ? '@' + Settings.LoginAtDomain : '';
-
-	this.emailVisible = ko.computed(function () {
-		return Enums.LoginFormType.Login !== Settings.LoginFormType;
-	}, this);
-	
-	this.loginVisible = ko.computed(function () {
-		return Enums.LoginFormType.Email !== Settings.LoginFormType;
-	}, this);
 
 	this.bUseSignMe = (Settings.LoginSignMeType === Enums.LoginSignMeType.Unuse);
 	this.signMe = ko.observable(Enums.LoginSignMeType.DefaultOn === Settings.LoginSignMeType);
 	this.signMeFocused = ko.observable(false);
 
-	this.emailDom = ko.observable(null);
-	this.loginDom = ko.observable(null);
-	this.passwordDom = ko.observable(null);
-
-	this.focusedField = '';
-
 	this.canBeLogin = ko.computed(function () {
-		return !this.loading() && !this.changingLanguage();
+		return !this.loading();
 	}, this);
 
 	this.signInButtonText = ko.computed(function () {
@@ -74,13 +53,15 @@ function CLoginView()
 
 	this.loginCommand = Utils.createCommand(this, this.signIn, this.canBeLogin);
 
-	this.email(Settings.DemoLogin || '');
+	this.login(Settings.DemoLogin || '');
 	this.password(Settings.DemoPassword || '');
 	
 	this.shake = ko.observable(false).extend({'autoResetToFalse': 800});
 	
 	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 }
+
+_.extendOwn(CLoginView.prototype, CAbstractScreenView.prototype);
 
 CLoginView.prototype.ViewTemplate = '%ModuleName%_LoginView';
 CLoginView.prototype.ViewConstructorName = 'CLoginView';
@@ -90,49 +71,41 @@ CLoginView.prototype.onBind = function ()
 	$html.addClass('non-adjustable-valign');
 };
 
+/**
+ * Focuses login input after view showing.
+ */
 CLoginView.prototype.onShow = function ()
 {
-	this.fillFields();
-};
-
-CLoginView.prototype.fillFields = function ()
-{
 	_.delay(_.bind(function(){
-		this.focusFields();
+		if (this.login() === '')
+		{
+			this.loginFocus(true);
+		}
 	},this), 1);
 };
 
-CLoginView.prototype.focusFields = function ()
-{
-	if (this.emailVisible() && this.email() === '')
-	{
-		this.emailFocus(true);
-	}
-	else if (this.loginVisible() && this.login() === '')
-	{
-		this.loginFocus(true);
-	}
-};
-
+/**
+ * Checks login input value and sends sign-in request to server.
+ */
 CLoginView.prototype.signIn = function ()
 {
 	$('.check_autocomplete_input').trigger('input').trigger('change').trigger('keydown');
 
-	var
-		sEmail = this.email(),
-		sLogin = this.login()
-	;
-
-	if (!this.loading() && !this.changingLanguage() && (
-		(Enums.LoginFormType.Login === Settings.LoginFormType && '' !== $.trim(sLogin)) ||
-		(Enums.LoginFormType.Email === Settings.LoginFormType && '' !== $.trim(sEmail)) ||
-		(Enums.LoginFormType.Both === Settings.LoginFormType && '' !== $.trim(sEmail))
-	))
+	if (!this.loading() && ('' !== $.trim(this.login())))
 	{
-		this.sendRequest();
+		var oParameters = {
+			'Login': this.login(),
+			'Password': this.password(),
+			'SignMe': this.signMe() ? '1' : '0'
+		};
+
+		this.loading(true);
+
+		Ajax.send('Login', oParameters, this.onSystemLoginResponse, this);
 	}
 	else
 	{
+		this.loginFocus(true);
 		this.shake(true);
 	}
 };
@@ -171,17 +144,4 @@ CLoginView.prototype.onSystemLoginResponse = function (oResponse, oRequest)
 	}
 };
 
-CLoginView.prototype.sendRequest = function ()
-{
-	var oParameters = {
-		'Login': this.emailVisible() ? this.email() : this.loginVisible() ? this.login() : '',
-		'Password': this.password(),
-		'SignMe': this.signMe() ? '1' : '0'
-	};
-
-	this.loading(true);
-	
-	Ajax.send('Login', oParameters, this.onSystemLoginResponse, this);
-};
-
-module.exports = CLoginView;
+module.exports = new CLoginView();

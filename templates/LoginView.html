@@ -1,52 +1,55 @@
-<form class="form fields" action="#" autocomplete="on" onsubmit="return false;" data-bind="command: loginCommand">
-	<div class="fieldset">
-		<div class="row login" data-bind="visible: emailVisible, css: {'focused': emailFocus(), 'filled': email().length > 0, shake: shake()}">
-			<label for="selenium_login_email" class="placeholder"></label>
-			<span class="value">
-				<input id="selenium_login_email" tabindex="1" class="input check_autocomplete_input" name="login" type="text" spellcheck="false"
-					   data-bind="value: email, hasfocus: emailFocus, valueUpdate: 'afterkeydown', initDom: emailDom, i18n: {'key': '%MODULENAME%/LABEL_LOGIN', 'type': 'placeholder'}" />
-			</span>
-		</div>
-		<!-- ko if: loginVisible --> <!-- for correctly browser save passwords -->
-		<div class="row login" data-bind="visible: loginVisible, css: {'focused': loginFocus(), 'filled': login().length > 0, shake: shake()}">
-			<label for="login" class="placeholder"></label>
-			<span class="value">
-				<input id="login" tabindex="2" class="input check_autocomplete_input" type="text" spellcheck="false"
-					   data-bind="value: login, hasfocus: loginFocus, valueUpdate: 'afterkeydown', initDom: loginDom, i18n: {'key': '%MODULENAME%/LABEL_LOGIN', 'type': 'placeholder'}" />
-			</span>
-			<span class="value suffix">
-				<span class="text" data-bind="text: sLoginAtDomain"></span>
-			</span>
-		</div>
-		<!-- /ko -->
-		<div class="row password" data-bind="css: {'focused': passwordFocus(), 'filled': password().length > 0, shake: shake()}">
-			<label for="selenium_login_password" class="placeholder"></label>
-			<span class="value">
-				<input id="selenium_login_password" tabindex="3" class="input check_autocomplete_input" name="password" type="password" spellcheck="false"
-					   data-bind="value: password, hasfocus: passwordFocus, valueUpdate: 'afterkeydown', initDom: passwordDom, i18n: {'key': 'CORECLIENT/LABEL_PASSWORD', 'type': 'placeholder'}" />
-			</span>
+<div class="screen LoginLayout" style="display: none;">
+	<div class="login_panel login">
+		<div class="login_panel_content" style="backface-visibility: inherit;">
+			<div class="header" data-bind="css: {'custom_logo': sCustomLogoUrl}">
+				<!-- ko if: sCustomLogoUrl === '' --><span class="icon"></span><!-- /ko -->
+				<!-- ko if: sCustomLogoUrl !== '' --><img data-bind="attr: {'src': sCustomLogoUrl}"/><!-- /ko -->
+				<span class="text" data-bind="i18n: {'key': 'CORECLIENT/HEADING_LOGIN'}"></span>
+			</div>
+			
+			<div class="content login clearfix">
+				<form class="form fields" action="#" autocomplete="on" onsubmit="return false;" data-bind="command: loginCommand">
+					<div class="fieldset">
+						<div class="row login" data-bind="css: {'focused': loginFocus(), 'filled': login().length > 0, shake: shake()}">
+							<label for="selenium_login_login" class="placeholder"></label>
+							<span class="value">
+								<input id="selenium_login_login" tabindex="1" class="input check_autocomplete_input" name="login" type="text" spellcheck="false"
+									   data-bind="value: login, hasfocus: loginFocus, valueUpdate: 'afterkeydown', i18n: {'key': '%MODULENAME%/LABEL_LOGIN', 'type': 'placeholder'}" />
+							</span>
+						</div>
+						<div class="row password" data-bind="css: {'focused': passwordFocus(), 'filled': password().length > 0, shake: shake()}">
+							<label for="selenium_login_password" class="placeholder"></label>
+							<span class="value">
+								<input id="selenium_login_password" tabindex="3" class="input check_autocomplete_input" name="password" type="password" spellcheck="false"
+									   data-bind="value: password, hasfocus: passwordFocus, valueUpdate: 'afterkeydown', i18n: {'key': 'CORECLIENT/LABEL_PASSWORD', 'type': 'placeholder'}" />
+							</span>
+						</div>
+					</div>
+					{%INCLUDE-START/Login-Before-Submit-Button/INCLUDE-END%}
+					<div class="row buttons">
+						<button type="submit" tabindex="5" class="button login" data-bind="text: signInButtonText, command: loginCommand" id="selenium_login_signin_button"></button>
+					</div>
+					<div class="row signme" data-bind="visible: bUseSignMe">
+						<span>
+							<label class="custom_checkbox" data-bind="css: {'checked': signMe, 'focus': signMeFocused}">
+								<span class="icon"></span>
+								<input id="signme" tabindex="4" type="checkbox" data-bind="checked: signMe, hasfocus: signMeFocused" />
+							</label>
+							<label class="signme_label" for="signme" data-bind="i18n: {'key': '%MODULENAME%/LABEL_REMEMBER_ME'}"></label>
+						</span>
+					</div>
+					{%INCLUDE-START/Login-After/INCLUDE-END%}
+				</form>
+				<div class="clear"></div>
+			</div>
+			
+			<!--{%INCLUDE-START/Login-Before-Description/INCLUDE-END%}-->
+			<div class="description" data-bind="visible: sInfoText !== '', html: sInfoText"></div>
+			<!--{%INCLUDE-START/Login-After-Description/INCLUDE-END%}-->
+			<div class="clear"></div>
 		</div>
 	</div>
-	{%INCLUDE-START/Login-Before-Submit-Button/INCLUDE-END%}
-	<div class="row buttons">
-		<button type="submit" tabindex="5" class="button login" data-bind="text: signInButtonText, command: loginCommand" id="selenium_login_signin_button"></button>
-	</div>
-	<div class="row signme" data-bind="visible: bUseSignMe">
-		<span>
-			<label class="custom_checkbox" data-bind="css: {'checked': signMe, 'focus': signMeFocused}">
-				<span class="icon"></span>
-				<input id="signme" tabindex="4" type="checkbox" data-bind="checked: signMe, hasfocus: signMeFocused" />
-			</label>
-			<label class="signme_label" for="signme" data-bind="i18n: {'key': '%MODULENAME%/LABEL_REMEMBER_ME'}"></label>
-		</span>
-	</div>
-	<div class="row links">
-		<div class="forgot" data-bind="visible: bAllowResetPassword">
-			<span class="link" data-bind="click: function () {$parent.gotoForgot(true);}, i18n: {'key': 'CORECLIENT/ACTION_FORGOT'}"></span>
-		</div>
-		<div class="register" data-bind="visible: bAllowRegistration">
-			<span class="link" data-bind="click: function () {$parent.gotoRegister(true);}, i18n: {'key': 'CORECLIENT/ACTION_REGISTER'}"></span>
-		</div>
-	</div>
-	{%INCLUDE-START/Login-After/INCLUDE-END%}
-</form>
+	<div class="vhelper"></div>
+
+	<!--{%INCLUDE-START/Login-Footer/INCLUDE-END%}-->
+</div>

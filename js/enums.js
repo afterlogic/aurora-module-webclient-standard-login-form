@@ -8,15 +8,6 @@ var
 /**
  * @enum {number}
  */
-Enums.LoginFormType = {
-	'Email': 0,
-	'Login': 3,
-	'Both': 4
-};
-
-/**
- * @enum {number}
- */
 Enums.LoginSignMeType = {
 	'DefaultOff': 0,
 	'DefaultOn': 1,

@@ -21,13 +21,20 @@ module.exports = function (oAppData, iUserRole, bPublic) {
 	if (!bPublic && bAnonimUser)
 	{
 		return {
+			/**
+			 * Returns login view screen.
+			 */
 			getScreens: function () {
 				var oScreens = {};
 				oScreens[Settings.HashModuleName] = function () {
-					return require('modules/%ModuleName%/js/views/WrapLoginView.js');
+					return require('modules/%ModuleName%/js/views/LoginView.js');
 				};
 				return oScreens;
 			},
+			
+			/**
+			 * Redirect to custom login url if specified.
+			 */
 			beforeAppRunning: function () {
 				if (Types.isNonEmptyString(Settings.CustomLoginUrl))
 				{
