@@ -5,7 +5,7 @@ var
 ;
 
 module.exports = {
-	ServerModuleName: 'StandardLoginForm',
+	ServerModuleName: 'StandardLoginFormWebclient',
 	HashModuleName: 'standardloginform',
 	
 	CustomLoginUrl: '',

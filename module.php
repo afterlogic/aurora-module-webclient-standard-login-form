@@ -1,6 +1,6 @@
 <?php
 
-class StandardLoginFormModule extends AApiModule
+class StandardLoginFormWebclientModule extends AApiModule
 {
 	protected $aSettingsMap = array(
 		'CustomLoginUrl' => array('', 'string'),
