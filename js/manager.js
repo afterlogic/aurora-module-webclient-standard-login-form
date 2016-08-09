@@ -8,7 +8,7 @@ module.exports = function (oAppData, iUserRole, bPublic) {
 	var
 		_ = require('underscore'),
 		
-		Types = require('modules/CoreClient/js/utils/Types.js'),
+		Types = require('%PathToCoreWebclientModule%/js/utils/Types.js'),
 		
 		Settings = require('modules/%ModuleName%/js/Settings.js'),
 		oSettings = _.extend({}, oAppData[Settings.ServerModuleName] || {}, oAppData['%ModuleName%'] || {}),
