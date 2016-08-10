@@ -48,7 +48,7 @@ function CLoginView()
 	}, this);
 
 	this.signInButtonText = ko.computed(function () {
-		return this.loading() ? TextUtils.i18n('CORECLIENT/ACTION_SIGN_IN_IN_PROGRESS') : TextUtils.i18n('CORECLIENT/ACTION_SIGN_IN');
+		return this.loading() ? TextUtils.i18n('COREWEBCLIENT/ACTION_SIGN_IN_IN_PROGRESS') : TextUtils.i18n('COREWEBCLIENT/ACTION_SIGN_IN');
 	}, this);
 
 	this.loginCommand = Utils.createCommand(this, this.signIn, this.canBeLogin);
@@ -124,7 +124,7 @@ CLoginView.prototype.onSystemLoginResponse = function (oResponse, oRequest)
 		this.loading(false);
 		this.shake(true);
 		
-		Api.showErrorByCode(oResponse, TextUtils.i18n('CORECLIENT/ERROR_PASS_INCORRECT'));
+		Api.showErrorByCode(oResponse, TextUtils.i18n('COREWEBCLIENT/ERROR_PASS_INCORRECT'));
 	}
 	else
 	{
