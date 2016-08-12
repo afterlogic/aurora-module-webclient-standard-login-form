@@ -15,7 +15,7 @@ var
 	
 	CAbstractScreenView = require('%PathToCoreWebclientModule%/js/views/CAbstractScreenView.js'),
 	
-	Ajax = require('modules/%ModuleName%/js/Ajax.js'),
+	Ajax = require('%PathToCoreWebclientModule%/js/Ajax.js'),
 	Settings = require('modules/%ModuleName%/js/Settings.js'),
 	
 	$html = $('html')
@@ -89,8 +89,6 @@ CLoginView.prototype.onShow = function ()
  */
 CLoginView.prototype.signIn = function ()
 {
-	$('.check_autocomplete_input').trigger('input').trigger('change').trigger('keydown');
-
 	if (!this.loading() && ('' !== $.trim(this.login())))
 	{
 		var oParameters = {
@@ -101,7 +99,7 @@ CLoginView.prototype.signIn = function ()
 
 		this.loading(true);
 
-		Ajax.send('Login', oParameters, this.onSystemLoginResponse, this);
+		Ajax.send('%ModuleName%', 'Login', oParameters, this.onSystemLoginResponse, this);
 	}
 	else
 	{
