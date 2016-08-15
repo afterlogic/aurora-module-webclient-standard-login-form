@@ -26,7 +26,7 @@ var
  */
 function CLoginView()
 {
-	CAbstractScreenView.call(this);
+	CAbstractScreenView.call(this, '%ModuleName%');
 	
 	this.sCustomLogoUrl = Settings.CustomLogoUrl;
 	this.sInfoText = Settings.InfoText;
