@@ -3,6 +3,8 @@
 class StandardLoginFormWebclientModule extends AApiModule
 {
 	protected $aSettingsMap = array(
+		'ServerModuleName' => array('StandardLoginFormWebclient', 'string'),
+		'HashModuleName' => array('login', 'string'),
 		'CustomLoginUrl' => array('', 'string'),
 		'CustomLogoUrl' => array('', 'string'),
 		'DemoLogin' => array('', 'string'),
@@ -29,6 +31,8 @@ class StandardLoginFormWebclientModule extends AApiModule
 	public function GetAppData()
 	{
 		return array(
+			'ServerModuleName' => $this->getConfig('ServerModuleName', ''),
+			'HashModuleName' => $this->getConfig('HashModuleName', ''),
 			'CustomLoginUrl' => $this->getConfig('CustomLoginUrl', ''),
 			'CustomLogoUrl' => $this->getConfig('CustomLogoUrl', ''),
 			'DemoLogin' => $this->getConfig('DemoLogin', ''),

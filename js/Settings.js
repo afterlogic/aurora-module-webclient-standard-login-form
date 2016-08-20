@@ -5,7 +5,7 @@ var
 ;
 
 module.exports = {
-	ServerModuleName: 'StandardLoginFormWebclient',
+	ServerModuleName: '%ModuleName%',
 	HashModuleName: 'login',
 	
 	CustomLoginUrl: '',
@@ -23,6 +23,9 @@ module.exports = {
 	init: function (oAppDataSection) {
 		if (oAppDataSection)
 		{
+			this.ServerModuleName = Types.pString(oAppDataSection.ServerModuleName);
+			this.HashModuleName = Types.pString(oAppDataSection.HashModuleName);
+			
 			this.CustomLoginUrl = Types.pString(oAppDataSection.CustomLoginUrl);
 			this.CustomLogoUrl = Types.pString(oAppDataSection.CustomLogoUrl);
 			this.DemoLogin = Types.pString(oAppDataSection.DemoLogin);
