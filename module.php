@@ -51,7 +51,7 @@ class StandardLoginFormWebclientModule extends AApiModule
 	 * 
 	 * @return array
 	 * 
-	 * @throws \System\Exceptions\ClientException
+	 * @throws \System\Exceptions\AuroraApiException
 	 */
 	public function Login($Login, $Password, $SignMe = 0)
 	{
@@ -76,6 +76,6 @@ class StandardLoginFormWebclientModule extends AApiModule
 			);
 		}
 		
-		throw new \System\Exceptions\ClientException(\System\Notifications::AuthError);
+		throw new \System\Exceptions\AuroraApiException(\System\Notifications::AuthError);
 	}
 }
