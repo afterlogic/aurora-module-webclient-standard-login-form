@@ -30,6 +30,8 @@ class StandardLoginFormWebclientModule extends AApiModule
 	 */
 	public function GetAppData()
 	{
+		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		
 		return array(
 			'ServerModuleName' => $this->getConfig('ServerModuleName', ''),
 			'HashModuleName' => $this->getConfig('HashModuleName', ''),
@@ -55,6 +57,8 @@ class StandardLoginFormWebclientModule extends AApiModule
 	 */
 	public function Login($Login, $Password, $SignMe = 0)
 	{
+		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		
 		$mResult = false;
 
 		$this->broadcastEvent('Login', array(
