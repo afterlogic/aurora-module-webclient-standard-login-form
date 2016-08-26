@@ -20,7 +20,6 @@ class StandardLoginFormWebclientModule extends AApiModule
 	 */
 	public function init()
 	{
-		$this->setNonAuthorizedMethods(array('Login'));
 	}
 	
 	/**
