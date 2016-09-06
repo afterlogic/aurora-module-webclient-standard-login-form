@@ -7,7 +7,7 @@
                "type":"zip"
         },
         "source":{
-		"url": "https://github.com/afterlogic/aurora-module-webclient-standard-login-form.git",
+		"url": "git://github.com/afterlogic/aurora-module-webclient-standard-login-form",
 		"type": "git",
 		"reference": "master"
         },
