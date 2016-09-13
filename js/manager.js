@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = function (oAppData, iUserRole, bPublic) {
+module.exports = function (oAppData) {
 	require('modules/%ModuleName%/js/enums.js');
 	require('jquery.cookie');
 
@@ -10,15 +10,17 @@ module.exports = function (oAppData, iUserRole, bPublic) {
 		
 		Types = require('%PathToCoreWebclientModule%/js/utils/Types.js'),
 		
+		App = require('%PathToCoreWebclientModule%/js/App.js'),
+		
 		Settings = require('modules/%ModuleName%/js/Settings.js'),
 		oSettings = _.extend({}, oAppData[Settings.ServerModuleName] || {}, oAppData['%ModuleName%'] || {}),
 		
-		bAnonimUser = iUserRole === Enums.UserRole.Anonymous
+		bAnonimUser = App.getUserRole() === Enums.UserRole.Anonymous
 	;
 	
 	Settings.init(oSettings);
 	
-	if (!bPublic && bAnonimUser)
+	if (!App.isPublic() && bAnonimUser)
 	{
 		return {
 			/**
@@ -43,4 +45,6 @@ module.exports = function (oAppData, iUserRole, bPublic) {
 			}
 		};
 	}
+	
+	return null;
 };
