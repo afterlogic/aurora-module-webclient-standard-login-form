@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
+//test
+
 class StandardLoginFormWebclientModule extends AApiModule
 {
 	protected $aSettingsMap = array(
