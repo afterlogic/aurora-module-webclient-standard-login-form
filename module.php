@@ -16,8 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-//test2
-
 class StandardLoginFormWebclientModule extends AApiModule
 {
 	protected $aSettingsMap = array(
@@ -30,16 +28,8 @@ class StandardLoginFormWebclientModule extends AApiModule
 		'InfoText' => array('', 'string'),
 		'LoginSignMeType' => array(0, 'int'),
 	);
-
-	/**
-	 * Initializes Standard Login Form Module.
-	 * 
-	 * @return array
-	 */
-	public function init()
-	{
-	}
 	
+	/***** public functions might be called with web API *****/
 	/**
 	 * Obtaines list of module settings for authenticated user.
 	 * 
@@ -67,9 +57,7 @@ class StandardLoginFormWebclientModule extends AApiModule
 	 * @param string $Login Login for authentication.
 	 * @param string $Password Password for authentication.
 	 * @param int $SignMe Indicated if keep user authenticated between sessions.
-	 * 
 	 * @return array
-	 * 
 	 * @throws \System\Exceptions\AuroraApiException
 	 */
 	public function Login($Login, $Password, $SignMe = 0)
@@ -77,7 +65,7 @@ class StandardLoginFormWebclientModule extends AApiModule
 		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
 		
 		$mResult = false;
-
+		
 		$this->broadcastEvent('Login', array(
 			array (
 				'Login' => $Login,
@@ -86,7 +74,7 @@ class StandardLoginFormWebclientModule extends AApiModule
 			),
 			&$mResult
 		));
-
+		
 		if (is_array($mResult))
 		{
 			$mResult['time'] = $SignMe ? time() + 60 * 60 * 24 * 30 : 0;
@@ -99,4 +87,5 @@ class StandardLoginFormWebclientModule extends AApiModule
 		
 		throw new \System\Exceptions\AuroraApiException(\System\Notifications::AuthError);
 	}
+	/***** public functions might be called with web API *****/
 }
