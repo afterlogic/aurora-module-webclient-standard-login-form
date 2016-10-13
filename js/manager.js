@@ -3,7 +3,7 @@
 
 module.exports = function (oAppData) {
 	require('modules/%ModuleName%/js/enums.js');
-	require('jquery.cookie');
+	require('%PathToCoreWebclientModule%/js/vendors/jquery.cookie.js');
 
 	var
 		_ = require('underscore'),
