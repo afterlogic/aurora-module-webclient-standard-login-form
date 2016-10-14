@@ -68,13 +68,14 @@ class StandardLoginFormWebclientModule extends AApiModule
 		
 		$mResult = false;
 		
+		$aArgs = array (
+			'Login' => $Login,
+			'Password' => $Password,
+			'SignMe' => $SignMe
+		);
 		$this->broadcastEvent(
 			'Login', 
-			array (
-				'Login' => $Login,
-				'Password' => $Password,
-				'SignMe' => $SignMe
-			),
+			$aArgs,
 			$mResult
 		);
 		
