@@ -53,43 +53,9 @@ class StandardLoginFormWebclientModule extends AApiModule
 		);
 	}
 	
-	/**
-	 * Broadcasts Login event to other modules to log in the system with specified parameters.
-	 * 
-	 * @param string $Login Login for authentication.
-	 * @param string $Password Password for authentication.
-	 * @param int $SignMe Indicated if keep user authenticated between sessions.
-	 * @return array
-	 * @throws \System\Exceptions\AuroraApiException
-	 */
-	public function Login($Login, $Password, $SignMe = 0)
+	public function Login($Login, $Password, $SignMe)
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
-		
-		$mResult = false;
-		
-		$aArgs = array (
-			'Login' => $Login,
-			'Password' => $Password,
-			'SignMe' => $SignMe
-		);
-		$this->broadcastEvent(
-			'Login', 
-			$aArgs,
-			$mResult
-		);
-		
-		if (is_array($mResult))
-		{
-			$mResult['time'] = $SignMe ? time() + 60 * 60 * 24 * 30 : 0;
-			$sAuthToken = \CApi::UserSession()->Set($mResult);
-			
-			return array(
-				'AuthToken' => $sAuthToken
-			);
-		}
-		
-		throw new \System\Exceptions\AuroraApiException(\System\Notifications::AuthError);
+		return \CApi::GetModuleDecorator('Core')->Login($Login, $Password, $SignMe);
 	}
 	/***** public functions might be called with web API *****/
 }
