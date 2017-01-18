@@ -1,0 +1,10 @@
+{
+	"ServerModuleName": "StandardLoginFormWebclient",
+	"HashModuleName": "login",
+    "CustomLoginUrl": "",
+    "CustomLogoUrl": "",
+    "DemoLogin": "",
+    "DemoPassword": "",
+    "InfoText": "",
+    "LoginSignMeType": 0
+}
