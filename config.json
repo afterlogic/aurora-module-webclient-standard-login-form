@@ -1,4 +1,8 @@
 {
+	"Disabled": [
+		false,
+		"bool"
+	],
 	"ServerModuleName": [
         "StandardLoginFormWebclient",
         "string"
