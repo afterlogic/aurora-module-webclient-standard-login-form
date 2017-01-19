@@ -20,17 +20,6 @@
 
 class StandardLoginFormWebclientModule extends AApiModule
 {
-	protected $aSettingsMap = array(
-		'ServerModuleName' => array('StandardLoginFormWebclient', 'string'),
-		'HashModuleName' => array('login', 'string'),
-		'CustomLoginUrl' => array('', 'string'),
-		'CustomLogoUrl' => array('', 'string'),
-		'DemoLogin' => array('', 'string'),
-		'DemoPassword' => array('', 'string'),
-		'InfoText' => array('', 'string'),
-		'LoginSignMeType' => array(0, 'int'),
-	);
-	
 	/***** public functions might be called with web API *****/
 	/**
 	 * Obtains list of module settings for authenticated user.
