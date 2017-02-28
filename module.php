@@ -20,7 +20,7 @@
 
 namespace Aurora\Modules;
 
-class StandardLoginFormWebclientModule extends \AApiModule
+class StandardLoginFormWebclientModule extends \Aurora\System\AbstractModule
 {
 	/***** public functions might be called with web API *****/
 	/**
@@ -30,7 +30,7 @@ class StandardLoginFormWebclientModule extends \AApiModule
 	 */
 	public function GetSettings()
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
 		
 		return array(
 			'ServerModuleName' => $this->getConfig('ServerModuleName', ''),
@@ -46,7 +46,7 @@ class StandardLoginFormWebclientModule extends \AApiModule
 	
 	public function Login($Login, $Password, $SignMe)
 	{
-		return \CApi::GetModuleDecorator('Core')->Login($Login, $Password, $SignMe);
+		return \Aurora\System\Api::GetModuleDecorator('Core')->Login($Login, $Password, $SignMe);
 	}
 	/***** public functions might be called with web API *****/
 }
