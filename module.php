@@ -20,7 +20,7 @@
 
 namespace Aurora\Modules;
 
-class StandardLoginFormWebclientModule extends \Aurora\System\AbstractModule
+class StandardLoginFormWebclientModule extends \Aurora\System\Module\AbstractModule
 {
 	/***** public functions might be called with web API *****/
 	/**
