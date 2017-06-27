@@ -94,7 +94,7 @@ CLoginView.prototype.signIn = function ()
 		var oParameters = {
 			'Login': this.login(),
 			'Password': this.password(),
-			'SignMe': this.signMe() ? '1' : '0'
+			'SignMe': this.signMe()
 		};
 
 		this.loading(true);
