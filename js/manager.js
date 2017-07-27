@@ -22,28 +22,56 @@ module.exports = function (oAppData) {
 	
 	if (!App.isPublic() && bAnonimUser)
 	{
-		return {
-			/**
-			 * Returns login view screen.
-			 */
-			getScreens: function () {
-				var oScreens = {};
-				oScreens[Settings.HashModuleName] = function () {
+		if (App.isMobile())
+		{
+			return {
+				/**
+				 * Returns login view screen as is.
+				 */
+				getLoginScreenView: function () {
 					return require('modules/%ModuleName%/js/views/LoginView.js');
-				};
-				return oScreens;
-			},
-			
-			/**
-			 * Redirect to custom login url if specified.
-			 */
-			beforeAppRunning: function () {
-				if (Types.isNonEmptyString(Settings.CustomLoginUrl))
-				{
-					window.location.href = Settings.CustomLoginUrl;
+				},
+				
+				getHashModuleName: function () {
+					return Settings.HashModuleName;
+				},
+
+				/**
+				 * Redirect to custom login url if specified.
+				 */
+				beforeAppRunning: function () {
+					if (Types.isNonEmptyString(Settings.CustomLoginUrl))
+					{
+						window.location.href = Settings.CustomLoginUrl;
+					}
 				}
-			}
-		};
+			};
+		}
+		else
+		{
+			return {
+				/**
+				 * Returns login view screen.
+				 */
+				getScreens: function () {
+					var oScreens = {};
+					oScreens[Settings.HashModuleName] = function () {
+						return require('modules/%ModuleName%/js/views/LoginView.js');
+					};
+					return oScreens;
+				},
+
+				/**
+				 * Redirect to custom login url if specified.
+				 */
+				beforeAppRunning: function () {
+					if (Types.isNonEmptyString(Settings.CustomLoginUrl))
+					{
+						window.location.href = Settings.CustomLoginUrl;
+					}
+				}
+			};
+		}
 	}
 	
 	return null;

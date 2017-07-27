@@ -7,7 +7,7 @@
 	},
 	"extra": {
 		"installer-name": "StandardLoginFormWebclient",
-		"include-in-mobile": true,
+		"include-in-mobile": false,
 		"include-in-desktop": true
 	}
 }
