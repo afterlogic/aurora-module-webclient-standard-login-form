@@ -37,9 +37,9 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		);
 	}
 	
-	public function Login($Login, $Password, $SignMe)
+	public function Login($Login, $Password, $Language = '', $SignMe = false)
 	{
-		return \Aurora\Modules\Core\Module::Decorator()->Login($Login, $Password, $SignMe);
+		return \Aurora\Modules\Core\Module::Decorator()->Login($Login, $Password, $Language, $SignMe);
 	}
 	/***** public functions might be called with web API *****/
 }

@@ -8,12 +8,14 @@ module.exports = {
 	ServerModuleName: '%ModuleName%',
 	HashModuleName: 'login',
 	
+	AllowChangeLanguage: false,
 	CustomLoginUrl: '',
 	CustomLogoUrl: '',
 	DemoLogin: '',
 	DemoPassword: '',
 	InfoText: '',
 	LoginSignMeType: Enums.LoginSignMeType.DefaultOff, // 0 - off, 1 - on, 2 - don't use
+	UseFlagsLanguagesView: false,
 	
 	/**
 	 * Initializes settings from AppData section.
@@ -26,12 +28,14 @@ module.exports = {
 			this.ServerModuleName = Types.pString(oAppDataSection.ServerModuleName);
 			this.HashModuleName = Types.pString(oAppDataSection.HashModuleName);
 			
+			this.AllowChangeLanguage = !!oAppDataSection.AllowChangeLanguage;
 			this.CustomLoginUrl = Types.pString(oAppDataSection.CustomLoginUrl);
 			this.CustomLogoUrl = Types.pString(oAppDataSection.CustomLogoUrl);
 			this.DemoLogin = Types.pString(oAppDataSection.DemoLogin);
 			this.DemoPassword = Types.pString(oAppDataSection.DemoPassword);
 			this.InfoText = Types.pString(oAppDataSection.InfoText);
 			this.LoginSignMeType = Types.pInt(oAppDataSection.LoginSignMeType);
+			this.UseFlagsLanguagesView = !!oAppDataSection.UseFlagsLanguagesView;
 		}
 	}
 };

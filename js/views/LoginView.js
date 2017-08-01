@@ -16,6 +16,7 @@ var
 	CAbstractScreenView = require('%PathToCoreWebclientModule%/js/views/CAbstractScreenView.js'),
 	
 	Ajax = require('%PathToCoreWebclientModule%/js/Ajax.js'),
+	UserSettings = require('%PathToCoreWebclientModule%/js/Settings.js'),
 	Settings = require('modules/%ModuleName%/js/Settings.js'),
 	
 	$html = $('html')
@@ -58,6 +59,12 @@ function CLoginView()
 	
 	this.shake = ko.observable(false).extend({'autoResetToFalse': 800});
 	
+	this.bRtl = UserSettings.IsRTL;
+	this.aLanguages = UserSettings.LanguageList;
+	this.currentLanguage = ko.observable(UserSettings.Language);
+	this.bAllowChangeLanguage = Settings.AllowChangeLanguage && !App.isMobile();
+	this.bUseFlagsLanguagesView = Settings.UseFlagsLanguagesView;
+	
 	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 }
 
@@ -94,6 +101,7 @@ CLoginView.prototype.signIn = function ()
 		var oParameters = {
 			'Login': this.login(),
 			'Password': this.password(),
+			'Language': $.cookie('aurora-selected-lang') || '',
 			'SignMe': this.signMe()
 		};
 
@@ -127,6 +135,7 @@ CLoginView.prototype.onSystemLoginResponse = function (oResponse, oRequest)
 	else
 	{
 		$.cookie('AuthToken', oResponse.Result.AuthToken, { expires: 30 });
+		$.removeCookie('aurora-selected-lang');
 		
 		if (window.location.search !== '' &&
 			UrlUtils.getRequestParam('reset-pass') === null &&
@@ -139,6 +148,19 @@ CLoginView.prototype.onSystemLoginResponse = function (oResponse, oRequest)
 		{
 			UrlUtils.clearAndReloadLocation(Browser.ie8AndBelow, false);
 		}
+	}
+};
+
+/**
+ * @param {string} sLanguage
+ */
+CLoginView.prototype.changeLanguage = function (sLanguage)
+{
+	if (sLanguage && this.bAllowChangeLanguage)
+	{
+		$.cookie('aurora-lang-on-login', sLanguage, { expires: 30 });
+		$.cookie('aurora-selected-lang', sLanguage, { expires: 30 });
+		window.location.reload();
 	}
 };
 

@@ -34,5 +34,13 @@
     "LoginSignMeType": [
 		0,
 		"int"
+	],
+	"AllowChangeLanguage": [
+		false,
+		"bool"
+	],
+	"UseFlagsLanguagesView": [
+		false,
+		"bool"
 	]
 }
