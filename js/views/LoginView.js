@@ -63,7 +63,7 @@ function CLoginView()
 	this.aLanguages = UserSettings.LanguageList;
 	this.currentLanguage = ko.observable(UserSettings.Language);
 	this.bAllowChangeLanguage = Settings.AllowChangeLanguage && !App.isMobile();
-	this.bUseFlagsLanguagesView = Settings.UseFlagsLanguagesView;
+	this.bUseDropdownLanguagesView = Settings.UseDropdownLanguagesView;
 	
 	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 }

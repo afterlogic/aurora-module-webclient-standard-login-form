@@ -36,10 +36,10 @@
 		"int"
 	],
 	"AllowChangeLanguage": [
-		false,
+		true,
 		"bool"
 	],
-	"UseFlagsLanguagesView": [
+	"UseDropdownLanguagesView": [
 		false,
 		"bool"
 	]

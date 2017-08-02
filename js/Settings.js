@@ -15,7 +15,7 @@ module.exports = {
 	DemoPassword: '',
 	InfoText: '',
 	LoginSignMeType: Enums.LoginSignMeType.DefaultOff, // 0 - off, 1 - on, 2 - don't use
-	UseFlagsLanguagesView: false,
+	UseDropdownLanguagesView: false,
 	
 	/**
 	 * Initializes settings from AppData section.
@@ -35,7 +35,7 @@ module.exports = {
 			this.DemoPassword = Types.pString(oAppDataSection.DemoPassword);
 			this.InfoText = Types.pString(oAppDataSection.InfoText);
 			this.LoginSignMeType = Types.pInt(oAppDataSection.LoginSignMeType);
-			this.UseFlagsLanguagesView = !!oAppDataSection.UseFlagsLanguagesView;
+			this.UseDropdownLanguagesView = !!oAppDataSection.UseDropdownLanguagesView;
 		}
 	}
 };
