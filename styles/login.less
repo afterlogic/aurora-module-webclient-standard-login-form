@@ -231,6 +231,17 @@
 		padding-left: 30px;
 		text-align: right;
 		white-space: nowrap;
+		
+		html.rtl & {
+			padding-left: 10px;
+			padding-right: 30px;
+			
+			&.buttons {
+				padding-left: 0px;
+				padding-right: 0px;
+			}
+		}
+		
 
 		&.focused {
 			background: @focused-background;
@@ -345,6 +356,10 @@
 			text-align: left;
 			text-indent: 3px;
 			width: 100%;
+			
+			html.rtl & {
+				text-align: right;
+			}
 
 			&:focus {
 				box-shadow: none;

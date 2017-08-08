@@ -11,6 +11,14 @@
 	}
 
 	.custom_selector {
+		.control .icon {
+			color: #000;
+			
+			&:before {
+				font-size: 32px;
+			}
+		}
+		
 		.register & .name {
 			display: inline-block;
 			height: 15px;
@@ -61,6 +69,11 @@
 		width: 16px;
 		
 		.spritesX2();
+		
+		html.rtl & {
+			margin-left: 4px;
+			margin-right: 0px;
+		}
 	}
 	
 	.English .icon { background-position: 0px -480px; }
@@ -100,7 +113,7 @@
 	.Slovenian .icon { background-position: -480px -520px; }
 
 	&.demo {
-		background: #D7DCDF;
+		background: #9EE6D4;
 		border: 1px solid #C7CCCF;
 		border-radius: 4px;
 		clear: both;
@@ -113,6 +126,14 @@
 		text-align: left;
 		top: 20px;
 		width: 590px;
+		
+		html.rtl & {
+			margin-left: 0;
+			margin-right: -172px;
+			text-align: right;
+		}
+		
+		.gradient(#9EE6D4, #C1CDB8,  #9EE6D4);
 		
 		.langs_heading {
 			color: #464646;
@@ -134,7 +155,7 @@
 				white-space: nowrap;
 
 				&:hover {
-					background-color: #B3BAC2;
+					background-color: #67C0B7;
 					color: #333333;
 				}
 				
@@ -145,7 +166,7 @@
 			}
 			
 			&.selected .item_content {
-				background: #6C859B;
+				background: #2993A2;
 				color: #fff;
 			}
 		}
