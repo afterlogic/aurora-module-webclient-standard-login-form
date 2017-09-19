@@ -76,6 +76,8 @@ CLoginView.prototype.ViewConstructorName = 'CLoginView';
 CLoginView.prototype.onBind = function ()
 {
 	$html.addClass('non-adjustable-valign');
+	
+	this.onBindCallback();
 };
 
 /**
