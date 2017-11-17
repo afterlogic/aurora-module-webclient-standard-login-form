@@ -107,7 +107,7 @@ CLoginView.prototype.signIn = function ()
 
 		this.loading(true);
 
-		Ajax.send('%ModuleName%', 'Login', oParameters, this.onSystemLoginResponse, this);
+		Ajax.send('%ModuleName%', 'Login', oParameters, this.onSystemLoginResponse, this, 100000);
 	}
 	else
 	{
