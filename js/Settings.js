@@ -1,6 +1,8 @@
 'use strict';
 
 var
+	_ = require('underscore'),
+	
 	Types = require('%PathToCoreWebclientModule%/js/utils/Types.js')
 ;
 
@@ -18,24 +20,27 @@ module.exports = {
 	UseDropdownLanguagesView: false,
 	
 	/**
-	 * Initializes settings from AppData section.
+	 * Initializes settings from AppData object sections.
 	 * 
-	 * @param {Object} oAppDataSection contains module settings from server.
+	 * @param {Object} oAppData Object contained modules settings.
 	 */
-	init: function (oAppDataSection) {
-		if (oAppDataSection)
+	init: function (oAppData)
+	{
+		var oAppDataSection = oAppData['%ModuleName%'];
+		
+		if (!_.isEmpty(oAppDataSection))
 		{
-			this.ServerModuleName = Types.pString(oAppDataSection.ServerModuleName);
-			this.HashModuleName = Types.pString(oAppDataSection.HashModuleName);
+			this.ServerModuleName = Types.pString(oAppDataSection.ServerModuleName, this.ServerModuleName);
+			this.HashModuleName = Types.pString(oAppDataSection.HashModuleName, this.HashModuleName);
 			
-			this.AllowChangeLanguage = !!oAppDataSection.AllowChangeLanguage;
-			this.CustomLoginUrl = Types.pString(oAppDataSection.CustomLoginUrl);
-			this.CustomLogoUrl = Types.pString(oAppDataSection.CustomLogoUrl);
-			this.DemoLogin = Types.pString(oAppDataSection.DemoLogin);
-			this.DemoPassword = Types.pString(oAppDataSection.DemoPassword);
-			this.InfoText = Types.pString(oAppDataSection.InfoText);
-			this.LoginSignMeType = Types.pInt(oAppDataSection.LoginSignMeType);
-			this.UseDropdownLanguagesView = !!oAppDataSection.UseDropdownLanguagesView;
+			this.AllowChangeLanguage = Types.pBool(oAppDataSection.AllowChangeLanguage, this.AllowChangeLanguage);
+			this.CustomLoginUrl = Types.pString(oAppDataSection.CustomLoginUrl, this.CustomLoginUrl);
+			this.CustomLogoUrl = Types.pString(oAppDataSection.CustomLogoUrl, this.CustomLogoUrl);
+			this.DemoLogin = Types.pString(oAppDataSection.DemoLogin, this.DemoLogin);
+			this.DemoPassword = Types.pString(oAppDataSection.DemoPassword, this.DemoPassword);
+			this.InfoText = Types.pString(oAppDataSection.InfoText, this.InfoText);
+			this.LoginSignMeType = Types.pEnum(oAppDataSection.LoginSignMeType, Enums.LoginSignMeType, this.LoginSignMeType);
+			this.UseDropdownLanguagesView = Types.pBool(oAppDataSection.UseDropdownLanguagesView, this.UseDropdownLanguagesView);
 		}
 	}
 };
