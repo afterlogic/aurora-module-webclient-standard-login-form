@@ -12,7 +12,7 @@ module.exports = function (oAppData) {
 		
 		Settings = require('modules/%ModuleName%/js/Settings.js'),
 		
-		bAnonimUser = App.getUserRole() === Enums.UserRole.Anonymous
+		bAnonimUser = App.getUserRole() === window.Enums.UserRole.Anonymous
 	;
 	
 	Settings.init(oAppData);
@@ -52,9 +52,14 @@ module.exports = function (oAppData) {
 				 */
 				getScreens: function () {
 					var oScreens = {};
-					oScreens[Settings.HashModuleName] = function () {
-						return require('modules/%ModuleName%/js/views/LoginView.js');
-					};
+					
+					if (!Types.isNonEmptyString(Settings.CustomLoginUrl))
+					{
+						oScreens[Settings.HashModuleName] = function () {
+							return require('modules/%ModuleName%/js/views/LoginView.js');
+						};
+					}
+					
 					return oScreens;
 				},
 
