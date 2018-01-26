@@ -33,6 +33,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			'DemoLogin' => $this->getConfig('DemoLogin', ''),
 			'DemoPassword' => $this->getConfig('DemoPassword', ''),
 			'InfoText' => $this->getConfig('InfoText', ''),
+			'BottomInfoHtmlText' => $this->getConfig('BottomInfoHtmlText', ''),
 			'LoginSignMeType' => $this->getConfig('LoginSignMeType', 0),
 			'AllowChangeLanguage' => $this->getConfig('AllowChangeLanguage', true),
 			'UseDropdownLanguagesView' => $this->getConfig('UseDropdownLanguagesView', false),

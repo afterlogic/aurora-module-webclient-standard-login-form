@@ -16,6 +16,7 @@ module.exports = {
 	DemoLogin: '',
 	DemoPassword: '',
 	InfoText: '',
+	BottomInfoHtmlText: '',
 	LoginSignMeType: Enums.LoginSignMeType.DefaultOff, // 0 - off, 1 - on, 2 - don't use
 	UseDropdownLanguagesView: false,
 	
@@ -39,6 +40,7 @@ module.exports = {
 			this.DemoLogin = Types.pString(oAppDataSection.DemoLogin, this.DemoLogin);
 			this.DemoPassword = Types.pString(oAppDataSection.DemoPassword, this.DemoPassword);
 			this.InfoText = Types.pString(oAppDataSection.InfoText, this.InfoText);
+			this.BottomInfoHtmlText = Types.pString(oAppDataSection.BottomInfoHtmlText, this.BottomInfoHtmlText);
 			this.LoginSignMeType = Types.pEnum(oAppDataSection.LoginSignMeType, Enums.LoginSignMeType, this.LoginSignMeType);
 			this.UseDropdownLanguagesView = Types.pBool(oAppDataSection.UseDropdownLanguagesView, this.UseDropdownLanguagesView);
 		}

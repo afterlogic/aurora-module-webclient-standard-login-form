@@ -31,6 +31,10 @@
 		"",
 		"string"
 	],
+    "BottomInfoHtmlText": [
+		"",
+		"string"
+	],
     "LoginSignMeType": [
 		0,
 		"int"

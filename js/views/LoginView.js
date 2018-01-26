@@ -31,6 +31,7 @@ function CLoginView()
 	
 	this.sCustomLogoUrl = Settings.CustomLogoUrl;
 	this.sInfoText = Settings.InfoText;
+	this.sBottomInfoHtmlText = Settings.BottomInfoHtmlText;
 	
 	this.login = ko.observable('');
 	this.password = ko.observable('');
