@@ -100,8 +100,8 @@ CLoginView.prototype.signIn = function ()
 	if (!this.loading() && ('' !== $.trim(this.login())))
 	{
 		var oParameters = {
-			'Login': this.login(),
-			'Password': this.password(),
+			'Login': $.trim(this.login()),
+			'Password': $.trim(this.password()),
 			'Language': $.cookie('aurora-selected-lang') || '',
 			'SignMe': this.signMe()
 		};
