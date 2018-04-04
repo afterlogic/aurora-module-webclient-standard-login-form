@@ -29,7 +29,6 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			'ServerModuleName' => $this->getConfig('ServerModuleName', ''),
 			'HashModuleName' => $this->getConfig('HashModuleName', ''),
 			'CustomLoginUrl' => $this->getConfig('CustomLoginUrl', ''),
-			'CustomLogoUrl' => $this->getConfig('CustomLogoUrl', ''),
 			'DemoLogin' => $this->getConfig('DemoLogin', ''),
 			'DemoPassword' => $this->getConfig('DemoPassword', ''),
 			'InfoText' => $this->getConfig('InfoText', ''),

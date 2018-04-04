@@ -27,7 +27,10 @@ module.exports = {
 	 */
 	init: function (oAppData)
 	{
-		var oAppDataSection = oAppData['%ModuleName%'];
+		var 
+			oAppDataSection = oAppData['%ModuleName%'],
+			oAppDataBrandingWebclientSection = oAppData['BrandingWebclient']
+		;
 		
 		if (!_.isEmpty(oAppDataSection))
 		{
@@ -36,13 +39,17 @@ module.exports = {
 			
 			this.AllowChangeLanguage = Types.pBool(oAppDataSection.AllowChangeLanguage, this.AllowChangeLanguage);
 			this.CustomLoginUrl = Types.pString(oAppDataSection.CustomLoginUrl, this.CustomLoginUrl);
-			this.CustomLogoUrl = Types.pString(oAppDataSection.CustomLogoUrl, this.CustomLogoUrl);
 			this.DemoLogin = Types.pString(oAppDataSection.DemoLogin, this.DemoLogin);
 			this.DemoPassword = Types.pString(oAppDataSection.DemoPassword, this.DemoPassword);
 			this.InfoText = Types.pString(oAppDataSection.InfoText, this.InfoText);
 			this.BottomInfoHtmlText = Types.pString(oAppDataSection.BottomInfoHtmlText, this.BottomInfoHtmlText);
 			this.LoginSignMeType = Types.pEnum(oAppDataSection.LoginSignMeType, Enums.LoginSignMeType, this.LoginSignMeType);
 			this.UseDropdownLanguagesView = Types.pBool(oAppDataSection.UseDropdownLanguagesView, this.UseDropdownLanguagesView);
+		}
+		
+		if (!_.isEmpty(oAppDataBrandingWebclientSection))
+		{
+			this.CustomLogoUrl = Types.pString(oAppDataBrandingWebclientSection.LoginLogo, this.CustomLogoUrl);
 		}
 	}
 };
