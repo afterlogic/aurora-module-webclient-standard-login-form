@@ -65,7 +65,7 @@ function CLoginView()
 	this.currentLanguage = ko.observable(UserSettings.Language);
 	this.bAllowChangeLanguage = Settings.AllowChangeLanguage && !App.isMobile();
 	this.bUseDropdownLanguagesView = Settings.UseDropdownLanguagesView;
-	
+
 	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 }
 
@@ -124,7 +124,7 @@ CLoginView.prototype.signIn = function ()
  * @param {Object} oResponse Data obtained from the server.
  * @param {Object} oRequest Data has been transferred to the server.
  */
-CLoginView.prototype.onSystemLoginResponse = function (oResponse, oRequest)
+CLoginView.prototype.onSystemLoginResponseBase = function (oResponse, oRequest)
 {
 	if (false === oResponse.Result)
 	{
@@ -137,7 +137,7 @@ CLoginView.prototype.onSystemLoginResponse = function (oResponse, oRequest)
 	{
 		$.cookie('AuthToken', oResponse.Result.AuthToken, { expires: 30 });
 		$.removeCookie('aurora-selected-lang');
-		
+
 		if (window.location.search !== '' &&
 			UrlUtils.getRequestParam('reset-pass') === null &&
 			UrlUtils.getRequestParam('invite-auth') === null &&
@@ -163,6 +163,11 @@ CLoginView.prototype.changeLanguage = function (sLanguage)
 		$.cookie('aurora-selected-lang', sLanguage, { expires: 30 });
 		window.location.reload();
 	}
+};
+
+CLoginView.prototype.onSystemLoginResponse = function (oResponse, oRequest)
+{
+	this.onSystemLoginResponseBase(oResponse, oRequest);
 };
 
 module.exports = new CLoginView();
