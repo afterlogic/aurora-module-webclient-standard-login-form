@@ -66,6 +66,8 @@ function CLoginView()
 	this.bAllowChangeLanguage = Settings.AllowChangeLanguage && !App.isMobile();
 	this.bUseDropdownLanguagesView = Settings.UseDropdownLanguagesView;
 
+	this.extentionComponents = ko.observableArray([]);
+
 	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 }
 
@@ -105,7 +107,7 @@ CLoginView.prototype.signIn = function ()
 			'Language': $.cookie('aurora-selected-lang') || '',
 			'SignMe': this.signMe()
 		};
-
+		this.registerExtentionComponentsParameters(oParameters);
 		this.loading(true);
 
 		Ajax.send('%ModuleName%', 'Login', oParameters, this.onSystemLoginResponse, this, 100000);
@@ -168,6 +170,26 @@ CLoginView.prototype.changeLanguage = function (sLanguage)
 CLoginView.prototype.onSystemLoginResponse = function (oResponse, oRequest)
 {
 	this.onSystemLoginResponseBase(oResponse, oRequest);
+};
+
+CLoginView.prototype.registerExtentionComponent = function (oComponent)
+{
+	this.extentionComponents.push(oComponent);
+};
+
+CLoginView.prototype.registerExtentionComponentsParameters = function (oParameters)
+{
+	_.each(this.extentionComponents(), function (oComponent) {
+		if (_.isFunction(oComponent.getParametersForSubmit))
+		{
+			var aParams = oComponent.getParametersForSubmit();
+
+			for (var ParamName in aParams)
+			{
+				oParameters[ParamName] = aParams[ParamName];
+			}
+		}
+	});
 };
 
 module.exports = new CLoginView();

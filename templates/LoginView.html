@@ -26,6 +26,9 @@
 						</div>
 					</div>
 					{%INCLUDE-START/Login-Before-Submit-Button/INCLUDE-END%}
+					<!-- ko foreach: extentionComponents -->
+						<!-- ko template: { name: $data.ViewTemplate, data: $data} --><!-- /ko -->
+					<!-- /ko -->
 					<div class="row buttons">
 						<button type="submit" tabindex="5" class="button login" data-bind="text: signInButtonText, command: loginCommand" id="selenium_login_signin_button"></button>
 					</div>

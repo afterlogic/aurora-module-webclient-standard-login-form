@@ -12,7 +12,8 @@ module.exports = function (oAppData) {
 		
 		Settings = require('modules/%ModuleName%/js/Settings.js'),
 		
-		bAnonimUser = App.getUserRole() === window.Enums.UserRole.Anonymous
+		bAnonimUser = App.getUserRole() === window.Enums.UserRole.Anonymous,
+		LoginView = null
 	;
 	
 	Settings.init(oAppData);
@@ -46,6 +47,14 @@ module.exports = function (oAppData) {
 		}
 		else
 		{
+			var GetLoginView = function() {
+				if (LoginView === null)
+				{
+					LoginView = require('modules/%ModuleName%/js/views/LoginView.js');
+				}
+				return LoginView;
+			};
+
 			return {
 				/**
 				 * Returns login view screen.
@@ -71,6 +80,11 @@ module.exports = function (oAppData) {
 					{
 						window.location.href = Settings.CustomLoginUrl;
 					}
+				},
+
+				registerComposeExtentionComponent: function (oComponent) {
+					var LoginView = GetLoginView();
+					LoginView.registerExtentionComponent(oComponent);
 				}
 			};
 		}
