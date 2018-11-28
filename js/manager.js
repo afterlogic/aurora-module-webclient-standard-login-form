@@ -82,7 +82,7 @@ module.exports = function (oAppData) {
 					}
 				},
 
-				registerComposeExtentionComponent: function (oComponent) {
+				registerExtentionComponent: function (oComponent) {
 					var LoginView = GetLoginView();
 					LoginView.registerExtentionComponent(oComponent);
 				}
