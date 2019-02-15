@@ -1,6 +1,5 @@
 'use strict';
 
-
 module.exports = function (oAppData) {
 	require('modules/%ModuleName%/js/enums.js');
 	require('%PathToCoreWebclientModule%/js/vendors/jquery.cookie.js');
@@ -12,8 +11,7 @@ module.exports = function (oAppData) {
 		
 		Settings = require('modules/%ModuleName%/js/Settings.js'),
 		
-		bAnonimUser = App.getUserRole() === window.Enums.UserRole.Anonymous,
-		LoginView = null
+		bAnonimUser = App.getUserRole() === window.Enums.UserRole.Anonymous
 	;
 	
 	Settings.init(oAppData);
@@ -47,14 +45,6 @@ module.exports = function (oAppData) {
 		}
 		else
 		{
-			var GetLoginView = function() {
-				if (LoginView === null)
-				{
-					LoginView = require('modules/%ModuleName%/js/views/LoginView.js');
-				}
-				return LoginView;
-			};
-
 			return {
 				/**
 				 * Returns login view screen.
@@ -80,11 +70,6 @@ module.exports = function (oAppData) {
 					{
 						window.location.href = Settings.CustomLoginUrl;
 					}
-				},
-
-				registerExtentionComponent: function (oComponent) {
-					var LoginView = GetLoginView();
-					LoginView.registerExtentionComponent(oComponent);
 				}
 			};
 		}

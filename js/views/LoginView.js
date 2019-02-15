@@ -9,14 +9,13 @@ var
 	UrlUtils = require('%PathToCoreWebclientModule%/js/utils/Url.js'),
 	Utils = require('%PathToCoreWebclientModule%/js/utils/Common.js'),
 	
+	Ajax = require('%PathToCoreWebclientModule%/js/Ajax.js'),
 	Api = require('%PathToCoreWebclientModule%/js/Api.js'),
 	App = require('%PathToCoreWebclientModule%/js/App.js'),
 	Browser = require('%PathToCoreWebclientModule%/js/Browser.js'),
-	
 	CAbstractScreenView = require('%PathToCoreWebclientModule%/js/views/CAbstractScreenView.js'),
-	
-	Ajax = require('%PathToCoreWebclientModule%/js/Ajax.js'),
 	UserSettings = require('%PathToCoreWebclientModule%/js/Settings.js'),
+	
 	Settings = require('modules/%ModuleName%/js/Settings.js'),
 	
 	$html = $('html')
@@ -66,7 +65,8 @@ function CLoginView()
 	this.bAllowChangeLanguage = Settings.AllowChangeLanguage && !App.isMobile();
 	this.bUseDropdownLanguagesView = Settings.UseDropdownLanguagesView;
 
-	this.extentionComponents = ko.observableArray([]);
+	this.beforeButtonsControllers = ko.observableArray([]);
+	App.broadcastEvent('AnonymousUserForm::PopulateBeforeButtonsControllers', { ModuleName: '%ModuleName%', RegisterBeforeButtonsController: this.registerBeforeButtonsController.bind(this) });
 
 	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 }
@@ -107,7 +107,8 @@ CLoginView.prototype.signIn = function ()
 			'Language': $.cookie('aurora-selected-lang') || '',
 			'SignMe': this.signMe()
 		};
-		this.registerExtentionComponentsParameters(oParameters);
+		App.broadcastEvent('AnonymousUserForm::PopulateFormSubmitParameters', { Module: '%ModuleName%', Parameters: oParameters });
+		
 		this.loading(true);
 
 		Ajax.send('%ModuleName%', 'Login', oParameters, this.onSystemLoginResponse, this, 100000);
@@ -167,29 +168,21 @@ CLoginView.prototype.changeLanguage = function (sLanguage)
 	}
 };
 
+/**
+ * @param {Object} oResponse
+ * @param {Object} oRequest
+ */
 CLoginView.prototype.onSystemLoginResponse = function (oResponse, oRequest)
 {
 	this.onSystemLoginResponseBase(oResponse, oRequest);
 };
 
-CLoginView.prototype.registerExtentionComponent = function (oComponent)
+/**
+ * @param {Object} oComponent
+ */
+CLoginView.prototype.registerBeforeButtonsController = function (oComponent)
 {
-	this.extentionComponents.push(oComponent);
-};
-
-CLoginView.prototype.registerExtentionComponentsParameters = function (oParameters)
-{
-	_.each(this.extentionComponents(), function (oComponent) {
-		if (_.isFunction(oComponent.getParametersForSubmit))
-		{
-			var aParams = oComponent.getParametersForSubmit();
-
-			for (var ParamName in aParams)
-			{
-				oParameters[ParamName] = aParams[ParamName];
-			}
-		}
-	});
+	this.beforeButtonsControllers.push(oComponent);
 };
 
 module.exports = new CLoginView();
