@@ -19,6 +19,7 @@ module.exports = {
 	BottomInfoHtmlText: '',
 	LoginSignMeType: Enums.LoginSignMeType.DefaultOff, // 0 - off, 1 - on, 2 - don't use
 	UseDropdownLanguagesView: false,
+	AuthTokenCookieExpireTime: 30,
 	
 	/**
 	 * Initializes settings from AppData object sections.
@@ -29,7 +30,8 @@ module.exports = {
 	{
 		var 
 			oAppDataSection = oAppData['%ModuleName%'],
-			oAppDataBrandingWebclientSection = oAppData['BrandingWebclient']
+			oAppDataBrandingWebclientSection = oAppData['BrandingWebclient'],
+			oAppDataCoreSection = oAppData['Core']
 		;
 		
 		if (!_.isEmpty(oAppDataSection))
@@ -45,6 +47,7 @@ module.exports = {
 			this.BottomInfoHtmlText = Types.pString(oAppDataSection.BottomInfoHtmlText, this.BottomInfoHtmlText);
 			this.LoginSignMeType = Types.pEnum(oAppDataSection.LoginSignMeType, Enums.LoginSignMeType, this.LoginSignMeType);
 			this.UseDropdownLanguagesView = Types.pBool(oAppDataSection.UseDropdownLanguagesView, this.UseDropdownLanguagesView);
+			this.AuthTokenCookieExpireTime = Types.pInt(oAppDataCoreSection.AuthTokenCookieExpireTime, this.AuthTokenCookieExpireTime);
 		}
 		
 		if (!_.isEmpty(oAppDataBrandingWebclientSection))
