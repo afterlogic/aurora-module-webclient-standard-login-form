@@ -138,7 +138,7 @@ CLoginView.prototype.onSystemLoginResponseBase = function (oResponse, oRequest)
 	}
 	else
 	{
-		$.cookie('AuthToken', oResponse.Result.AuthToken, { expires: Settings.AuthTokenCookieExpireTime });
+		App.setAuthToken(oResponse.Result.AuthToken);
 		$.removeCookie('aurora-selected-lang');
 
 		if (window.location.search !== '' &&
