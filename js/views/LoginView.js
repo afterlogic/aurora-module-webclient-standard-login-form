@@ -35,6 +35,9 @@ function CLoginView()
 	this.login = ko.observable('');
 	this.password = ko.observable('');
 	
+	this.loginDom = ko.observable(null);
+	this.passwordDom = ko.observable(null);
+	
 	this.loginFocus = ko.observable(false);
 	this.passwordFocus = ko.observable(false);
 
@@ -107,6 +110,10 @@ CLoginView.prototype.onShow = function ()
  */
 CLoginView.prototype.signIn = function ()
 {
+	// sometimes nockoutjs conflicts with saved passwords in FF
+	this.login($(this.loginDom()).val());
+	this.password($(this.passwordDom()).val());
+	
 	if (!this.loading() && ('' !== $.trim(this.login())))
 	{
 		var oParameters = {
