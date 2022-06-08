@@ -1,50 +1,98 @@
 {
-	"Disabled": [
-		false,
-		"bool"
-	],
-	"ServerModuleName": [
-        "StandardLoginFormWebclient",
-        "string"
-    ],
-	"HashModuleName": [
-		"login",
-		"string"
-	],
-    "CustomLoginUrl": [
-		"",
-		"string"
-	],
-    "DemoLogin": [
-		"",
-		"string"
-	],
-    "DemoPassword": [
-		"",
-		"string"
-	],
-    "InfoText": [
-		"",
-		"string"
-	],
-    "BottomInfoHtmlText": [
-		"",
-		"string"
-	],
-    "LoginSignMeType": [
-		0,
-		"int"
-	],
-	"AllowChangeLanguage": [
-		true,
-		"bool"
-	],
-	"UseDropdownLanguagesView": [
-		false,
-		"bool"
-	],
-	"AuthTokenCookieExpireTime": [
-		30,
-		"int"
-	]
+  "Disabled": [
+    false,
+    "bool"
+  ],
+  "Disabled_Description": [
+    "",
+    "string"
+  ],
+  "ServerModuleName": [
+    "StandardLoginFormWebclient",
+    "string"
+  ],
+  "ServerModuleName_Description": [
+    "",
+    "string"
+  ],
+  "HashModuleName": [
+    "login",
+    "string"
+  ],
+  "HashModuleName_Description": [
+    "",
+    "string"
+  ],
+  "CustomLoginUrl": [
+    "",
+    "string"
+  ],
+  "CustomLoginUrl_Description": [
+    "",
+    "string"
+  ],
+  "DemoLogin": [
+    "",
+    "string"
+  ],
+  "DemoLogin_Description": [
+    "",
+    "string"
+  ],
+  "DemoPassword": [
+    "",
+    "string"
+  ],
+  "DemoPassword_Description": [
+    "",
+    "string"
+  ],
+  "InfoText": [
+    "",
+    "string"
+  ],
+  "InfoText_Description": [
+    "",
+    "string"
+  ],
+  "BottomInfoHtmlText": [
+    "",
+    "string"
+  ],
+  "BottomInfoHtmlText_Description": [
+    "",
+    "string"
+  ],
+  "LoginSignMeType": [
+    0,
+    "int"
+  ],
+  "LoginSignMeType_Description": [
+    "",
+    "string"
+  ],
+  "AllowChangeLanguage": [
+    true,
+    "bool"
+  ],
+  "AllowChangeLanguage_Description": [
+    "",
+    "string"
+  ],
+  "UseDropdownLanguagesView": [
+    false,
+    "bool"
+  ],
+  "UseDropdownLanguagesView_Description": [
+    "",
+    "string"
+  ],
+  "AuthTokenCookieExpireTime": [
+    30,
+    "int"
+  ],
+  "AuthTokenCookieExpireTime_Description": [
+    "",
+    "string"
+  ]
 }
