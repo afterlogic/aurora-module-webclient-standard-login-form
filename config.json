@@ -28,7 +28,7 @@
 		"string"
 	],
 	"CustomLoginUrl_Description": [
-		"",
+		"If specified, user will be directed to login page at this URL instead of default login page",
 		"string"
 	],
 	"DemoLogin": [
