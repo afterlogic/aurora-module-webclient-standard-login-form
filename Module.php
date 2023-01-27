@@ -9,7 +9,7 @@ namespace Aurora\Modules\StandardLoginFormWebclient;
 
 /**
  * Displays standard login form with ability to pass login and password.
- * 
+ *
  * @license https://www.gnu.org/licenses/agpl-3.0.html AGPL-3.0
  * @license https://afterlogic.com/products/common-licensing Afterlogic Software License
  * @copyright Copyright (c) 2023, Afterlogic Corp.
@@ -18,33 +18,33 @@ namespace Aurora\Modules\StandardLoginFormWebclient;
  */
 class Module extends \Aurora\System\Module\AbstractWebclientModule
 {
-	/***** public functions might be called with web API *****/
-	/**
-	 * Obtains list of module settings for authenticated user.
-	 * 
-	 * @return array
-	 */
-	public function GetSettings()
-	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
-		
-		return array(
-			'ServerModuleName' => $this->getConfig('ServerModuleName', ''),
-			'HashModuleName' => $this->getConfig('HashModuleName', ''),
-			'CustomLoginUrl' => $this->getConfig('CustomLoginUrl', ''),
-			'DemoLogin' => $this->getConfig('DemoLogin', ''),
-			'DemoPassword' => $this->getConfig('DemoPassword', ''),
-			'InfoText' => $this->getConfig('InfoText', ''),
-			'BottomInfoHtmlText' => $this->getConfig('BottomInfoHtmlText', ''),
-			'LoginSignMeType' => $this->getConfig('LoginSignMeType', 0),
-			'AllowChangeLanguage' => $this->getConfig('AllowChangeLanguage', true),
-			'UseDropdownLanguagesView' => $this->getConfig('UseDropdownLanguagesView', false),
-		);
-	}
-	
-	public function Login($Login, $Password, $Language = '', $SignMe = false)
-	{
-		return \Aurora\Modules\Core\Module::Decorator()->Login($Login, $Password, $Language, $SignMe);
-	}
-	/***** public functions might be called with web API *****/
+    /***** public functions might be called with web API *****/
+    /**
+     * Obtains list of module settings for authenticated user.
+     *
+     * @return array
+     */
+    public function GetSettings()
+    {
+        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
+
+        return array(
+            'ServerModuleName' => $this->getConfig('ServerModuleName', ''),
+            'HashModuleName' => $this->getConfig('HashModuleName', ''),
+            'CustomLoginUrl' => $this->getConfig('CustomLoginUrl', ''),
+            'DemoLogin' => $this->getConfig('DemoLogin', ''),
+            'DemoPassword' => $this->getConfig('DemoPassword', ''),
+            'InfoText' => $this->getConfig('InfoText', ''),
+            'BottomInfoHtmlText' => $this->getConfig('BottomInfoHtmlText', ''),
+            'LoginSignMeType' => $this->getConfig('LoginSignMeType', 0),
+            'AllowChangeLanguage' => $this->getConfig('AllowChangeLanguage', true),
+            'UseDropdownLanguagesView' => $this->getConfig('UseDropdownLanguagesView', false),
+        );
+    }
+
+    public function Login($Login, $Password, $Language = '', $SignMe = false)
+    {
+        return \Aurora\Modules\Core\Module::Decorator()->Login($Login, $Password, $Language, $SignMe);
+    }
+    /***** public functions might be called with web API *****/
 }
