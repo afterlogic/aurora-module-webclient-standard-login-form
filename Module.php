@@ -70,7 +70,13 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 
     public function Login($Login, $Password, $Language = '', $SignMe = false)
     {
-        return \Aurora\Modules\Core\Module::Decorator()->Login($Login, $Password, $Language, $SignMe);
+        $mResult = \Aurora\Modules\Core\Module::Decorator()->Login($Login, $Password, $Language, $SignMe);
+
+        if ($mResult && isset($mResult['AuthToken'])) {
+            unset($mResult['AuthToken']);
+        }
+
+        return $mResult;
     }
     /***** public functions might be called with web API *****/
 }
