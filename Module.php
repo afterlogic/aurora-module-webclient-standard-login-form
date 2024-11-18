@@ -72,9 +72,6 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
     {
         $mResult = \Aurora\Modules\Core\Module::Decorator()->Login($Login, $Password, $Language, $SignMe);
 
-        if ($mResult && isset($mResult['AuthToken'])) {
-            unset($mResult['AuthToken']);
-        }
 
         return $mResult;
     }
