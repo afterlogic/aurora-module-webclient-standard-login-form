@@ -14,6 +14,7 @@
 							<label for="login_login" class="placeholder"></label>
 							<span class="value">
 								<input id="login_login" tabindex="1" class="input" name="login" type="text" spellcheck="false"
+									   data-test-id="login-email"
 									   data-bind="value: login, hasfocus: loginFocus, valueUpdate: 'afterkeydown', 
 										i18n: {'key': 'COREWEBCLIENT/LABEL_LOGIN', 'type': 'placeholder'}, initDom: loginDom" />
 							</span>
@@ -22,6 +23,7 @@
 							<label for="login_password" class="placeholder"></label>
 							<span class="value">
 								<input id="login_password" tabindex="3" class="input" name="password" type="password" spellcheck="false"
+									   data-test-id="login-password"
 									   data-bind="value: password, hasfocus: passwordFocus, valueUpdate: 'afterkeydown', 
 										i18n: {'key': 'COREWEBCLIENT/LABEL_PASSWORD', 'type': 'placeholder'}, initDom: passwordDom" />
 							</span>
@@ -32,7 +34,7 @@
 						<!-- ko template: { name: $data.ViewTemplate, data: $data} --><!-- /ko -->
 					<!-- /ko -->
 					<div class="row buttons">
-						<button type="submit" tabindex="5" class="button login" data-bind="text: signInButtonText, command: loginCommand"></button>
+						<button type="submit" tabindex="5" class="button login" data-test-id="login-submit" data-bind="text: signInButtonText, command: loginCommand"></button>
 					</div>
 					<div class="row signme" data-bind="visible: bUseSignMe">
 						<span>
