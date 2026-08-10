@@ -10,6 +10,7 @@ const { T } = sharedHelper('timeouts')
 test.describe('Desktop login page', () => {
   test('shows login form', async ({ page }) => {
     await step('Open desktop URL', async () => {
+      await page.context().clearCookies()
       await page.goto('')
     })
 
