@@ -5,6 +5,7 @@ const { sharedHelper, moduleHelper, fixturePath } = require(path.join(
 ))
 const { test, expect } = require('@playwright/test')
 const { step } = sharedHelper('login')
+const { T } = sharedHelper('timeouts')
 
 test.describe('Desktop login page', () => {
   test('shows login form', async ({ page }) => {
@@ -14,7 +15,7 @@ test.describe('Desktop login page', () => {
 
     await step('Expect login form fields', async () => {
       await expect(page.getByTestId('login-email')).toBeVisible({
-        timeout: 30000,
+        timeout: T(30000),
       })
       await expect(page.getByTestId('login-password')).toBeVisible()
       await expect(page.getByTestId('login-submit')).toBeVisible()

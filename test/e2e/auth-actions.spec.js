@@ -4,6 +4,7 @@ const { sharedHelper, moduleHelper, fixturePath } = require(path.join(
   'helpers/paths'
 ))
 const { test, expect } = require('@playwright/test')
+const { T } = sharedHelper('timeouts')
 const {
   loginAsTestUser,
   step,
@@ -14,20 +15,21 @@ const {
   getTestCredentials,
 } = sharedHelper('login')
 const { clickReady } = sharedHelper('ready')
+const { isTraditional } = sharedHelper('app-variant')
 const { logoutToLoginForm } = moduleHelper('SettingsWebclient', 'settings')
 
 test.describe('Desktop auth', () => {
   test.skip(!hasCredentials(), 'Set E2E_LOGIN_0/E2E_PASSWORD_0 (or E2E_LOGIN/E2E_PASSWORD) in .env.e2e')
 
   test('rejects invalid password and stays on login', async ({ page }) => {
-    test.setTimeout(120000)
+    test.setTimeout(T(120000))
     const { login } = getTestCredentials()
 
     await step('Open login page', async () => {
       await page.context().clearCookies()
       await page.goto('', { waitUntil: 'domcontentloaded' })
       await expect(page.getByTestId('login-email')).toBeVisible({
-        timeout: 30000,
+        timeout: T(30000),
       })
       await waitForTurnstileToken(page)
     })
@@ -39,30 +41,30 @@ test.describe('Desktop auth', () => {
       )
       await waitForTurnstileToken(page)
       await expect(page.getByTestId('login-submit')).toBeEnabled({
-        timeout: 10000,
+        timeout: T(10000),
       })
       await clickReady(page.getByTestId('login-submit'))
     })
 
     await step('Stay on login form', async () => {
       await expect(page.getByTestId('header-tabs')).not.toBeVisible({
-        timeout: 15000,
+        timeout: T(15000),
       })
       await expect(page.getByTestId('login-email')).toBeVisible({
-        timeout: 15000,
+        timeout: T(15000),
       })
       await attachScreenshot(page, 'auth-invalid-01')
     })
   })
 
   test('opens forgot-password form and returns to login', async ({ page }) => {
-    test.setTimeout(120000)
+    test.setTimeout(T(120000))
 
     await step('Open login page', async () => {
       await page.context().clearCookies()
       await page.goto('', { waitUntil: 'domcontentloaded' })
       await expect(page.getByTestId('login-email')).toBeVisible({
-        timeout: 30000,
+        timeout: T(30000),
       })
     })
 
@@ -75,10 +77,10 @@ test.describe('Desktop auth', () => {
     await step('Open reset password', async () => {
       await clickReady(forgot)
       await expect(page.getByTestId('reset-password-page')).toBeVisible({
-        timeout: 30000,
+        timeout: T(30000),
       })
       await expect(page.getByTestId('reset-password-email')).toBeVisible({
-        timeout: 15000,
+        timeout: T(15000),
       })
       await expect(page.getByTestId('reset-password-continue')).toBeVisible()
       await expect(page.getByTestId('reset-password-back')).toBeVisible()
@@ -89,10 +91,10 @@ test.describe('Desktop auth', () => {
     await step('Back to login without sending recovery', async () => {
       await clickReady(page.getByTestId('reset-password-back'))
       await expect(page.getByTestId('login-email')).toBeVisible({
-        timeout: 30000,
+        timeout: T(30000),
       })
       await expect(page.getByTestId('reset-password-page')).toBeHidden({
-        timeout: 15000,
+        timeout: T(15000),
       })
       console.log('  → Back on login')
       await attachScreenshot(page, 'auth-reset-02-login')
@@ -100,7 +102,7 @@ test.describe('Desktop auth', () => {
   })
 
   test('logout then login again', async ({ page }) => {
-    test.setTimeout(180000)
+    test.setTimeout(T(180000))
 
     await loginAsTestUser(page)
     await logoutToLoginForm(page)
@@ -114,13 +116,17 @@ test.describe('Desktop auth', () => {
       await waitForTurnstileToken(page)
       await clickReady(page.getByTestId('login-submit'))
       await expect(page.getByTestId('header-tabs')).toBeVisible({
-        timeout: 45000,
+        timeout: T(45000),
       })
-      await expect(page.getByTestId('nav-mail')).toBeVisible({
-        timeout: 30000,
-      })
+      // Legacy always shows nav-mail; the next SPA omits it when mail is
+      // already the active/default view (see helpers/login.js for the same rule).
+      if (isTraditional()) {
+        await expect(page.getByTestId('nav-mail')).toBeVisible({
+          timeout: T(30000),
+        })
+      }
       await expect(page.getByTestId('mail-message-list')).toBeVisible({
-        timeout: 60000,
+        timeout: T(60000),
       })
       console.log('  → Re-login success')
       await attachScreenshot(page, 'auth-relogin-02-shell')
@@ -128,13 +134,13 @@ test.describe('Desktop auth', () => {
   })
 
   test('password visibility toggle when available', async ({ page }) => {
-    test.setTimeout(90000)
+    test.setTimeout(T(90000))
 
     await step('Open login and type password', async () => {
       await page.context().clearCookies()
       await page.goto('', { waitUntil: 'domcontentloaded' })
       await expect(page.getByTestId('login-email')).toBeVisible({
-        timeout: 30000,
+        timeout: T(30000),
       })
       const pwd = fieldControl(page, 'login-password')
       await pwd.fill('secret-visible-check')
