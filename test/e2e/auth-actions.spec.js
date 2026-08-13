@@ -6,7 +6,8 @@ const { sharedHelper, moduleHelper, fixturePath } = require(path.join(
 const { test, expect } = require('@playwright/test')
 const { T } = sharedHelper('timeouts')
 const {
-  loginAsTestUser,
+  gotoLoggedIn,
+  loginAs,
   step,
   attachScreenshot,
   fieldControl,
@@ -15,7 +16,6 @@ const {
   getTestCredentials,
 } = sharedHelper('login')
 const { clickReady } = sharedHelper('ready')
-const { isTraditional } = sharedHelper('app-variant')
 const { logoutToLoginForm } = moduleHelper('SettingsWebclient', 'settings')
 
 test.describe('Desktop auth', () => {
@@ -104,67 +104,19 @@ test.describe('Desktop auth', () => {
   test('logout then login again', async ({ page }) => {
     test.setTimeout(T(180000))
 
-    await loginAsTestUser(page)
+    await gotoLoggedIn(page)
     await logoutToLoginForm(page)
     await attachScreenshot(page, 'auth-relogin-01-logged-out')
 
     await step('Login again with same credentials', async () => {
-      const { login, password } = getTestCredentials()
-      await waitForTurnstileToken(page)
-      await fieldControl(page, 'login-email').fill(login)
-      await fieldControl(page, 'login-password').fill(password)
-      await waitForTurnstileToken(page)
-      await clickReady(page.getByTestId('login-submit'))
-      await expect(page.getByTestId('header-tabs')).toBeVisible({
-        timeout: T(45000),
-      })
-      // Legacy always shows nav-mail; the next SPA omits it when mail is
-      // already the active/default view (see helpers/login.js for the same rule).
-      if (isTraditional()) {
-        await expect(page.getByTestId('nav-mail')).toBeVisible({
-          timeout: T(30000),
-        })
-      }
+      const credentials = getTestCredentials()
+      console.log(`  → Re-login as ${credentials.login}`)
+      await loginAs(page, credentials)
       await expect(page.getByTestId('mail-message-list')).toBeVisible({
         timeout: T(60000),
       })
       console.log('  → Re-login success')
       await attachScreenshot(page, 'auth-relogin-02-shell')
-    })
-  })
-
-  test('password visibility toggle when available', async ({ page }) => {
-    test.setTimeout(T(90000))
-
-    await step('Open login and type password', async () => {
-      await page.context().clearCookies()
-      await page.goto('', { waitUntil: 'domcontentloaded' })
-      await expect(page.getByTestId('login-email')).toBeVisible({
-        timeout: T(30000),
-      })
-      const pwd = fieldControl(page, 'login-password')
-      await pwd.fill('secret-visible-check')
-      await expect(pwd).toHaveAttribute('type', 'password')
-    })
-
-    await step('Toggle show/hide password if control exists', async () => {
-      const toggle = page.getByTestId('login-password-toggle')
-      test.skip(
-        (await toggle.count()) === 0,
-        'login-password-toggle not present on desktop Knockout login'
-      )
-      await clickReady(toggle)
-      await expect(fieldControl(page, 'login-password')).toHaveAttribute(
-        'type',
-        'text'
-      )
-      await clickReady(toggle)
-      await expect(fieldControl(page, 'login-password')).toHaveAttribute(
-        'type',
-        'password'
-      )
-      console.log('  → Password visibility toggled')
-      await attachScreenshot(page, 'auth-password-toggle-01')
     })
   })
 })

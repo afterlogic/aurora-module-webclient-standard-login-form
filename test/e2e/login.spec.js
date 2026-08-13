@@ -6,7 +6,6 @@ const { sharedHelper, moduleHelper, fixturePath } = require(path.join(
 const { test, expect } = require('@playwright/test')
 const { T } = sharedHelper('timeouts')
 const { loginAsTestUser, step, hasCredentials } = sharedHelper('login')
-const { isTraditional } = sharedHelper('app-variant')
 
 
 test.describe('Desktop login', () => {
@@ -18,11 +17,7 @@ test.describe('Desktop login', () => {
 
     await step('Confirm login form is gone and mail nav is visible', async () => {
       await expect(page.getByTestId('login-email')).not.toBeVisible()
-      // Legacy always shows nav-mail; the next SPA omits it when mail is
-      // already the active/default view (see helpers/login.js for the same rule).
-      if (isTraditional()) {
-        await expect(page.getByTestId('nav-mail')).toBeVisible()
-      }
+      await expect(page.getByTestId('nav-mail')).toBeVisible()
       await expect(page.getByTestId('mail-message-list')).toBeVisible({
         timeout: T(60000),
       })
