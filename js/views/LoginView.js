@@ -122,8 +122,17 @@ CLoginView.prototype.signIn = function ()
 			'Language': $.cookie('aurora-selected-lang') || '',
 			'SignMe': this.signMe()
 		};
-		App.broadcastEvent('AnonymousUserForm::PopulateFormSubmitParameters', { Module: '%ModuleName%', Parameters: oParameters });
-		
+		var oPopulateData = { Module: '%ModuleName%', Parameters: oParameters };
+		App.broadcastEvent('AnonymousUserForm::PopulateFormSubmitParameters', oPopulateData);
+
+		if (oPopulateData.Reject)
+		{
+			// A subscriber (e.g. a captcha plugin) couldn't provide required parameters -
+			// don't send a request that the server would reject anyway.
+			this.shake(true);
+			return;
+		}
+
 		this.loading(true);
 
 		Ajax.send('%ModuleName%', 'Login', oParameters, this.onSystemLoginResponse, this);
